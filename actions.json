@@ -42,7 +42,8 @@
     },
     {
       "name": "/actions/default/out/Haptic",
-      "type": "vibration"
+      "type": "vibration",
+      "requirement": "optional"
     },
     {
       "name": "/actions/platformer/in/Move",
@@ -77,7 +78,7 @@
   "action_sets": [
     {
       "name": "/actions/default",
-      "usage": "leftright"
+      "usage": "single"
     },
     {
       "name": "/actions/platformer",
