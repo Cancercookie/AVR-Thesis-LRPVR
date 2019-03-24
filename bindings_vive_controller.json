@@ -1,5 +1,6 @@
 {
-   "app_key" : "application.generated.unity.steamvr.exe",
+   "alias_info" : {},
+   "app_key" : "application.generated.unity.avrthesislightpipelinevr.exe",
    "bindings" : {
       "/actions/buggy" : {
          "sources" : [
@@ -252,5 +253,7 @@
    },
    "controller_type" : "vive_controller",
    "description" : "",
-   "name" : "vive_controller"
+   "name" : "vive_controller",
+   "options" : {},
+   "simulated_actions" : []
 }

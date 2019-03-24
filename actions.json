@@ -43,7 +43,7 @@
     {
       "name": "/actions/default/out/Haptic",
       "type": "vibration",
-      "requirement": "optional"
+      "requirement": "suggested"
     },
     {
       "name": "/actions/platformer/in/Move",
