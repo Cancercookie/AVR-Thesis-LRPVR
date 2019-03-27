@@ -2,10 +2,10 @@
   "source": "Unity",
   "applications": [
     {
-      "app_key": "application.generated.unity.newunityproject2.exe",
+      "app_key": "application.generated.unity.avrthesislightpipelinevr.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\Cancercookie\\Documents\\AVR Thesis LightPipelineVR\\actions.json",
+      "action_manifest_path": "C:\\Users\\VR LAB\\Desktop\\Jari Tarabelli\\AVR Thesis LRPVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "AVR Thesis LightPipelineVR [Testing]"
