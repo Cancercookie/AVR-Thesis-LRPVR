@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5228084446142559791}
   - component: {fileID: 2542493127025965731}
   - component: {fileID: 8998318629987330540}
+  - component: {fileID: 3436200885841573371}
   m_Layer: 0
   m_Name: Chips
   m_TagString: Untagged
@@ -207,3 +208,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000006, y: 1.9999998, z: 1.0000007}
   m_Center: {x: 0.00000005960467, y: 0, z: -0.00000008940701}
+--- !u!114 &3436200885841573371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316902317433096843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 393cc5df5dcaee741b71166d5f299de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5240998008401423730}
   - component: {fileID: 328112840588753992}
   - component: {fileID: 9147961229644098185}
+  - component: {fileID: 2041166362100001924}
   m_Layer: 0
   m_Name: Tuna
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4021673815416603829}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.572, y: 2.543, z: 6.813}
   m_LocalScale: {x: 0.19625334, y: 0.03529852, z: 0.19625334}
   m_Children: []
@@ -207,3 +208,15 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0000007, y: 2, z: 1.0000008}
   m_Center: {x: 0.00000005960468, y: 0, z: -0.000000089407024}
+--- !u!114 &2041166362100001924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4021673815416603829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 393cc5df5dcaee741b71166d5f299de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

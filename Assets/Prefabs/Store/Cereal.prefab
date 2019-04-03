@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4053424588829483852}
   - component: {fileID: 6913093693421084198}
   - component: {fileID: 1255350727511799568}
-  - component: {fileID: 8584532392696842777}
+  - component: {fileID: 681719792767082901}
   m_Layer: 0
   m_Name: Cereal
   m_TagString: Untagged
@@ -31,9 +31,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5611669327084638246}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 1.875, y: 4.0875, z: 0.8625}
-  m_LocalScale: {x: 0.6570047, y: 0.12518615, z: 0.4236891}
+  m_LocalScale: {x: 0.65700567, y: 0.12518638, z: 0.4236891}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   interactable: {fileID: 0}
---- !u!114 &8584532392696842777
+--- !u!114 &681719792767082901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,7 +217,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5611669327084638246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aae69a494d2440e48a20f40e89609a6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 393cc5df5dcaee741b71166d5f299de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}

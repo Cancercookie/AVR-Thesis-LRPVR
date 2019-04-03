@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 897851914333119557}
   - component: {fileID: 3079535907655587108}
   - component: {fileID: 4373517214051668822}
+  - component: {fileID: 8490554599974438536}
   m_Layer: 0
   m_Name: Pasta
   m_TagString: Untagged
@@ -30,7 +31,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76441571166249992}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 1.835312, y: 3.1704226, z: 0.7601627}
   m_LocalScale: {x: 0.5011682, y: 0.22797547, z: 0.33975878}
   m_Children: []
@@ -207,3 +208,15 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   interactable: {fileID: 0}
+--- !u!114 &8490554599974438536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76441571166249992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 393cc5df5dcaee741b71166d5f299de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
