@@ -7,11 +7,13 @@ public class ArticleSpawner : MonoBehaviour
     [SerializeField]
     private GameObject[] gameObjects;
     [SerializeField]
-    private char[] directions;
+    private char[] direction;
     [SerializeField]
-    private Vector3[] rotations;
+    private Vector3[] rotation;
     [SerializeField]
     private int[] cloneNumber;
+    [SerializeField]
+    private float[] gap;
 
     // Start is called before the first frame update
     void Start()
@@ -22,14 +24,14 @@ public class ArticleSpawner : MonoBehaviour
             var prefabX = 0f;
             var prefabY = 0f;
             var prefabZ = 0f;
-            if(directions[i] == 'x')
+            if(direction[i] == 'x')
             {
-                prefabX = -1;
-            }else if(directions[i] == 'y')
+                prefabX = 1;
+            }else if(direction[i] == 'y')
             {
                 prefabY = 1;
             }
-            else if(directions[i] == 'z')
+            else if(direction[i] == 'z')
             {
                 prefabZ = 1;
             }
@@ -38,10 +40,10 @@ public class ArticleSpawner : MonoBehaviour
             var Z = 0f;
             for (int j = 1; j < cloneNumber[i]; j++)
             {
-                X = prefabX * j * 0f;
-                Y = prefabY * j * 0f;
-                Z = prefabZ * j * 0f;
-                Instantiate(prefab, new Vector3(prefab.transform.position.x + X, prefab.transform.position.y + Y, prefab.transform.position.z + Z), transform.rotation * Quaternion.Euler(rotations[i]), transform);
+                X = prefabX * j * gap[i];
+                Y = prefabY * j * gap[i];
+                Z = prefabZ * j * gap[i];
+                Instantiate(prefab, new Vector3(prefab.transform.position.x + X, prefab.transform.position.y + Y, prefab.transform.position.z + Z), transform.rotation * Quaternion.Euler(rotation[i]), transform);
             }
         }
         
