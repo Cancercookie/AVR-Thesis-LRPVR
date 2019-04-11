@@ -1,0 +1,37 @@
+service: AVRService
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  stage: production
+  websocketApiName: websocket-avr
+  websocketApiRouteSelectionExpression: $request.body.action
+  iamRoleStatements: 
+    - Effect: "Allow" 
+      Action:
+        - "*"
+      Resource: "*"
+
+package:
+  exclude:
+    - node_modules/**
+    - '!node_modules/ask-sdk-core/**'
+    - '!node_modules/ask-sdk-model/**'
+    - '!node_modules/ask-sdk-runtime/**'
+    - '!node_modules/ask-sdk-s3-persistence-adapter/**'
+    - '!node_modules/ask-sdk/**'
+
+plugins:
+  - serverless-websockets-plugin
+
+functions:
+  AVRLambda:
+    handler: index.handler
+    events:
+      - alexaSkill: amzn1.ask.skill.ede64be4-ed2c-40c9-9807-129e07a830c4
+  AVRSocket:
+    handler: socket.handler
+    events:
+      - websocket: 
+        routeKey: $default
