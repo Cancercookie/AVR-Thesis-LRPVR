@@ -1,18 +1,6 @@
 const AWS = require('aws-sdk');
-
-const s3SigV4Client = new AWS.S3({
-    signatureVersion: 'v4'
-});
-
-module.exports.getS3PreSignedUrl = function getS3PreSignedUrl(s3ObjectKey) {
-
-    const bucketName = process.env.S3_PERSISTENCE_BUCKET;
-    const s3PreSignedUrl = s3SigV4Client.getSignedUrl('getObject', {
-        Bucket: bucketName,
-        Key: s3ObjectKey,
-        Expires: 60*5
-    });
-    console.log(`Util.s3PreSignedUrl: ${s3ObjectKey} URL ${s3PreSignedUrl}`);
-    return s3PreSignedUrl;
-
+const webSocketEndopoint = 'https://cxr4c7tqeh.execute-api.eu-west-1.amazonaws.com/production/@connections';
+const params = {
+	Bucket: 'avrbucket',
+	Key: 'amzn1.ask.account.AHQIYF5CK37VTIUPHMQVKD5ZOO42XKDGIC2GUCHYRMMA7GOKPI6K7BZQR3JLEGPFVSOCD4UGHF5FYKZDA5XS65TPRRTMGHZWRGQGT2HHOCWFE5WBSQKUZNE3HHSTMBPHTEM64TMZ5R45YRCJNEPXORZLURCDIU223BLKBUSZE7V6TFHYA4QRXBOKHZ6CISSBNR7TOIYRDYGCUPQ'
 }

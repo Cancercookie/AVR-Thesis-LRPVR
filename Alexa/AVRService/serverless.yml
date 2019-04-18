@@ -21,9 +21,7 @@ package:
     - '!node_modules/ask-sdk-runtime/**'
     - '!node_modules/ask-sdk-s3-persistence-adapter/**'
     - '!node_modules/ask-sdk/**'
-
-plugins:
-  - serverless-websockets-plugin
+    - '!node_modules/aws-sdk/**'
 
 functions:
   AVRLambda:
@@ -31,7 +29,24 @@ functions:
     events:
       - alexaSkill: amzn1.ask.skill.ede64be4-ed2c-40c9-9807-129e07a830c4
   AVRSocket:
-    handler: socket.handler
+    handler: socketHandler.main
     events:
       - websocket: 
-        routeKey: $default
+          route: $default
+  connectionManager:
+    handler: socketHandler.connectionManager
+    events:
+      - websocket:
+          route: $connect
+      - websocket:
+          route: $disconnect
+  socketRead:
+    handler: socketHandler.read
+    events:
+      - websocket:
+          route: read
+  socketWrite:
+    handler: socketHandler.write
+    events:
+      - websocket:
+          route: write

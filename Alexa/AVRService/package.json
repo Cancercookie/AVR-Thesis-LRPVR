@@ -17,6 +17,7 @@
     "ask-sdk-dynamodb-persistence-adapter": "^2.0.0"
   },
   "devDependencies": {
+    "serverless-layers": "^1.1.1",
     "serverless-websockets-plugin": "^1.0.0"
   }
 }
