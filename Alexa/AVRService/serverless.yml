@@ -16,12 +16,16 @@ provider:
 package:
   exclude:
     - node_modules/**
-    - '!node_modules/ask-sdk-core/**'
-    - '!node_modules/ask-sdk-model/**'
-    - '!node_modules/ask-sdk-runtime/**'
-    - '!node_modules/ask-sdk-s3-persistence-adapter/**'
-    - '!node_modules/ask-sdk/**'
-    - '!node_modules/aws-sdk/**'
+
+plugins:
+  - serverless-layers
+
+custom:
+  serverless-layers:
+    compileDir: '.serverless'
+    packagePath: 'package.json'
+    compatibleRuntimes: ['nodejs']
+    layersDeploymentBucket: "avr-layers-bucket"
 
 functions:
   AVRLambda:

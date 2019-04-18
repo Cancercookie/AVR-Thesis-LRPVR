@@ -20,7 +20,7 @@ const sendMessageToClient = (data, event) => new Promise((resolve, reject) => {
     Data: JSON.stringify(data),
   }, (err, data) => {
     if (err) {
-      console.log('err is', err);
+      console.log('Error: ', err);
       reject(err);
     }
     console.log(data);
