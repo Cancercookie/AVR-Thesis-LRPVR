@@ -54,3 +54,38 @@ functions:
     events:
       - websocket:
           route: write
+  broadcast:
+    handler: dynamo.broadcast
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt: [AVRTable, StreamArn]
+resources:
+  Resources:
+    AVRTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: AVRTable
+        BillingMode: PAY_PER_REQUEST
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+          - AttributeName: sk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+          - AttributeName: sk
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: reverse
+            KeySchema:
+              - AttributeName: sk
+                KeyType: HASH
+              - AttributeName: pk
+                KeyType: RANGE
+            Projection:
+                ProjectionType: ALL

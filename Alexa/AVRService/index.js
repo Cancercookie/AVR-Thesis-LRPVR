@@ -6,6 +6,8 @@
 
 const Alexa = require('ask-sdk-core');
 const persistenceAdapter = require('ask-sdk-s3-persistence-adapter');
+const webSocketEndopoint = 'https://cxr4c7tqeh.execute-api.eu-west-1.amazonaws.com/production';
+const webSocketHandler = require('socketHandler');
 
 /*DEFAULT INTENT HANDLERS */
 
@@ -186,8 +188,9 @@ const TutorialIntentHandler = {
         if(sessionAttributes.step === '1' || sessionAttributes.stepCardinal === '1o'){
             sessionAttributes.step = '1';
             sessionAttributes.stepCardinal = '1o';
-            attributesManager.setPersistentAttributes(sessionAttributes.step);
-            attributesManager.setPersistentAttributes({'step': sessionAttributes.stepCardinal});
+            attributesManager.setPersistentAttributes({step: sessionAttributes.step});
+            attributesManager.setPersistentAttributes({stepCardinal: sessionAttributes.stepCardinal});
+            webSocketHandler.sendMessageToClient({Body: 'funziona'}, {requestContext: {connectionId: sessionAttributes.connectionId}});
             await attributesManager.savePersistentAttributes();
             return handlerInput.responseBuilder.speak('<emphasis level="reduced">Iniziamo con le presentazioni: mi chiamo <lang xml:lang="en-US">Assistant in Virtual Retailing</lang>, per gli amici AVR. E tu come ti chiami?</emphasis>').getResponse();
         }else{
@@ -206,7 +209,7 @@ const TutorialIntentHandler = {
 // defined are included below. The order matters - they're processed top to bottom.
 
 exports.handler = Alexa.SkillBuilders.custom().withPersistenceAdapter(
-    new persistenceAdapter.S3PersistenceAdapter({bucketName:'avrassistantbackend'})
+    new persistenceAdapter.S3PersistenceAdapter({bucketName:'avrbucket'})
 ).addRequestHandlers(
     BuyIntentHandler,
     ChatIntentHandler,
