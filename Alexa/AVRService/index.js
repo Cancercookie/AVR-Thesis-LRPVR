@@ -3,9 +3,10 @@
 // session persistence, api calls, and more.
 
 const Alexa = require('ask-sdk-core');
+const dynamo = require('dynamo.js');
+const util = require('util.js');
 const persistenceAdapter = require('ask-sdk-dynamodb-persistence-adapter');
-const webSocketEndopoint = 'https://cxr4c7tqeh.execute-api.eu-west-1.amazonaws.com/production';
-const webSocketHandler = require('socketHandler');
+const webSocketHandler = require('socketHandler.js');
 
 /*DEFAULT INTENT HANDLERS */
 
@@ -13,8 +14,11 @@ const LaunchRequestHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
-    handle(handlerInput) {
-        const speechText = 'Benvenuto, mi chiamo AVR, il tuo <lang xml:lang="en-US">Personal Shopping Assistant</lang>. In cosa posso aiutarti?';
+    async handle(handlerInput) {
+        const row = await dynamo.getRowById(util.AlexaId);
+        var speechText = 'Benvenuto, mi chiamo AVR, il tuo <lang xml:lang="en-US">Personal Shopping Assistant</lang>. ';
+        if (row.length > 0 && row.Items[0].unityUserId.S !== 'disconnected') { speechText += 'In cosa posso aiutarti?'; }
+        else { speechText += 'Avvia il programma nella realtà virtuale per procedere. Fammi sapere quando sei pronto.'; }
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)

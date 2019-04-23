@@ -33,10 +33,6 @@ functions:
     handler: index.handler
     events:
       - alexaSkill: amzn1.ask.skill.ede64be4-ed2c-40c9-9807-129e07a830c4
-      - stream:
-          type: dynamodb
-          arn:
-            Fn::GetAtt: [AVRTable, StreamArn]
   AVRSocket:
     handler: socketHandler.main
     events:
@@ -78,19 +74,13 @@ resources:
         AttributeDefinitions:
           - AttributeName: alexaUserId
             AttributeType: S
-          - AttributeName: unityUserId
-            AttributeType: S
         KeySchema:
           - AttributeName: alexaUserId
             KeyType: HASH
-          - AttributeName: unityUserId
-            KeyType: RANGE
         GlobalSecondaryIndexes:
           - IndexName: reverse
             KeySchema:
               - AttributeName: alexaUserId
                 KeyType: HASH
-              - AttributeName: unityUserId
-                KeyType: RANGE
             Projection:
                 ProjectionType: ALL
