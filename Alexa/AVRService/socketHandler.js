@@ -30,12 +30,6 @@ async function sendMessageToClient(data, event) {
 }
 
 async function connectionManager(event, context) {
-	const response = await s3.getObject(params).promise()
-	.then((data) => { return data; })
-	.catch((err) => { console.log(err) });	
-	response.Body.connectionId = event.requestContext.connectionId;
-	console.log(response);
-	response.put(Body = response.Body);
     return success;
 }
 

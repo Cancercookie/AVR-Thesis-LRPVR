@@ -2,10 +2,8 @@
 // Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
 // session persistence, api calls, and more.
 
-// std-endpoint arn:aws:lambda:us-east-1:329392341144:function:fbb19cc1-50b2-4352-98cb-a2edaf497869:Release_0
-
 const Alexa = require('ask-sdk-core');
-const persistenceAdapter = require('ask-sdk-s3-persistence-adapter');
+const persistenceAdapter = require('ask-sdk-dynamodb-persistence-adapter');
 const webSocketEndopoint = 'https://cxr4c7tqeh.execute-api.eu-west-1.amazonaws.com/production';
 const webSocketHandler = require('socketHandler');
 
@@ -190,7 +188,7 @@ const TutorialIntentHandler = {
             sessionAttributes.stepCardinal = '1o';
             attributesManager.setPersistentAttributes({step: sessionAttributes.step});
             attributesManager.setPersistentAttributes({stepCardinal: sessionAttributes.stepCardinal});
-            webSocketHandler.sendMessageToClient({Body: 'funziona'}, {requestContext: {connectionId: sessionAttributes.connectionId}});
+            // webSocketHandler.sendMessageToClient({Body: 'funziona'}, {requestContext: {connectionId: sessionAttributes.connectionId}});
             await attributesManager.savePersistentAttributes();
             return handlerInput.responseBuilder.speak('<emphasis level="reduced">Iniziamo con le presentazioni: mi chiamo <lang xml:lang="en-US">Assistant in Virtual Retailing</lang>, per gli amici AVR. E tu come ti chiami?</emphasis>').getResponse();
         }else{
@@ -199,30 +197,25 @@ const TutorialIntentHandler = {
     }
 }
 
-/* CONSTANTS */
-
-/* HELPER FUNCTIONS */
-
 /* LAMBDA SETUP */
 // This handler acts as the entry point for your skill, routing all request and response
 // payloads to the handlers above. Make sure any new handlers or interceptors you've
 // defined are included below. The order matters - they're processed top to bottom.
 
-exports.handler = Alexa.SkillBuilders.custom().withPersistenceAdapter(
-    new persistenceAdapter.S3PersistenceAdapter({bucketName:'avrbucket'})
-).addRequestHandlers(
-    BuyIntentHandler,
-    ChatIntentHandler,
-    PriceIntentHandler,
-    SuggestIntentHandler,
-    HideIntentHandler,
-    TutorialIntentHandler,
-    StartIntentHandler,
-    LaunchRequestHandler, // defaults
-    HelpIntentHandler,
-    CancelAndStopIntentHandler,
-    SessionEndedRequestHandler,
-    IntentReflectorHandler) // make sure IntentReflectorHandler is last so it doesn't override your custom intent handlers
-    .addErrorHandlers(
-        ErrorHandler)
-    .lambda();
+exports.handler = Alexa.SkillBuilders.custom()
+    .withPersistenceAdapter(new persistenceAdapter.DynamoDbPersistenceAdapter({tableName: 'AVRTProvable', createTable: true}))
+    .addRequestHandlers(
+        BuyIntentHandler,
+        ChatIntentHandler,
+        PriceIntentHandler,
+        SuggestIntentHandler,
+        HideIntentHandler,
+        TutorialIntentHandler,
+        StartIntentHandler,
+        LaunchRequestHandler, // defaults
+        HelpIntentHandler,
+        CancelAndStopIntentHandler,
+        SessionEndedRequestHandler,
+        IntentReflectorHandler) // make sure IntentReflectorHandler is last so it doesn't override your custom intent handlers
+    .addErrorHandlers(ErrorHandler)
+.lambda();

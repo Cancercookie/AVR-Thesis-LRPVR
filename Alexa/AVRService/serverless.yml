@@ -19,6 +19,7 @@ package:
 
 plugins:
   - serverless-layers
+  - serverless-offline
 
 custom:
   serverless-layers:
@@ -32,6 +33,10 @@ functions:
     handler: index.handler
     events:
       - alexaSkill: amzn1.ask.skill.ede64be4-ed2c-40c9-9807-129e07a830c4
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt: [AVRTable, StreamArn]
   AVRSocket:
     handler: socketHandler.main
     events:
@@ -71,21 +76,21 @@ resources:
         StreamSpecification:
           StreamViewType: NEW_IMAGE
         AttributeDefinitions:
-          - AttributeName: pk
+          - AttributeName: alexaUserId
             AttributeType: S
-          - AttributeName: sk
+          - AttributeName: unityUserId
             AttributeType: S
         KeySchema:
-          - AttributeName: pk
+          - AttributeName: alexaUserId
             KeyType: HASH
-          - AttributeName: sk
+          - AttributeName: unityUserId
             KeyType: RANGE
         GlobalSecondaryIndexes:
           - IndexName: reverse
             KeySchema:
-              - AttributeName: sk
+              - AttributeName: alexaUserId
                 KeyType: HASH
-              - AttributeName: pk
+              - AttributeName: unityUserId
                 KeyType: RANGE
             Projection:
                 ProjectionType: ALL
