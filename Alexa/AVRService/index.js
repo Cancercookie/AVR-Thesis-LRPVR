@@ -17,8 +17,13 @@ const LaunchRequestHandler = {
     async handle(handlerInput) {
         const row = await dynamo.getRowById(util.AlexaId);
         var speechText = 'Benvenuto, mi chiamo AVR, il tuo <lang xml:lang="en-US">Personal Shopping Assistant</lang>. ';
-        if (row.length > 0 && row.Items[0].unityUserId.S !== 'disconnected') { speechText += 'In cosa posso aiutarti?'; }
-        else { speechText += 'Avvia il programma nella realtà virtuale per procedere. Fammi sapere quando sei pronto.'; }
+        if (row.length > 0 && row[0].unityUserId.S !== 'disconnected') { 
+            speechText += 'In cosa posso aiutarti?'; 
+        }
+        else { 
+            dynamo.putNewRow('disconnected');
+            speechText += 'Avvia il programma nella realtà virtuale per procedere. Fammi sapere quando sei pronto.'; 
+        }
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
@@ -32,7 +37,6 @@ const HelpIntentHandler = {
     },
     handle(handlerInput) {
         const speechText = 'Benvenuto, mi chiamo AVR. In cosa posso aiutarti?';
-
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
@@ -192,7 +196,7 @@ const TutorialIntentHandler = {
             sessionAttributes.stepCardinal = '1o';
             attributesManager.setPersistentAttributes({step: sessionAttributes.step});
             attributesManager.setPersistentAttributes({stepCardinal: sessionAttributes.stepCardinal});
-            // webSocketHandler.sendMessageToClient({Body: 'funziona'}, {requestContext: {connectionId: sessionAttributes.connectionId}});
+            webSocketHandler.sendMessageToClient({Body: 'funziona'}, {requestContext: {connectionId: sessionAttributes.connectionId}});
             await attributesManager.savePersistentAttributes();
             return handlerInput.responseBuilder.speak('<emphasis level="reduced">Iniziamo con le presentazioni: mi chiamo <lang xml:lang="en-US">Assistant in Virtual Retailing</lang>, per gli amici AVR. E tu come ti chiami?</emphasis>').getResponse();
         }else{

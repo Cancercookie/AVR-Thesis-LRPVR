@@ -32,6 +32,7 @@ async function connectionManager(event, context) {
 		await dynamo.updateUnityId([], 'disconnected');
 	}else {
 		console.log('dunno');
+		return
 	}
     return util.success;
 }
@@ -58,6 +59,5 @@ module.exports = {
     sendMessageToClient,
   	connectionManager,
   	read,
-  	write,
- 	main
+  	write
 };

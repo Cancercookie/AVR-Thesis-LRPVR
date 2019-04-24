@@ -22,9 +22,8 @@ async function putNewRow(connectionId, alexaId = util.AlexaId) {
 		}
 	}
 	const alreadyPresentItems = await getRowById(alexaId); // there should be only one
-	console.log(alreadyPresentItems);
 	if (alreadyPresentItems.length > 0) {
-		updateUnityId(alreadyPresentItems, connectionId);
+		await updateUnityId(alreadyPresentItems, connectionId);
 	}else {
 		return new Promise(function(resolve, reject) {
 			dynamodb.putItem(putParams, 
@@ -37,7 +36,6 @@ async function putNewRow(connectionId, alexaId = util.AlexaId) {
   			});
 		})
 	}
-	
 }
 
 async function getRowById(alexaId) {
@@ -72,9 +70,7 @@ async function updateUnityId(items, connectionId) {
  		}
   	};
   	updateParams.Key = {
-   		"alexaUserId": {
-     		S: items[0].alexaUserId.S
-    	}
+   		"alexaUserId": items[0].alexaUserId
   	}
   	updateParams.UpdateExpression = "SET unityUserId = :u";
 	return await new Promise(function(resolve, reject) {
