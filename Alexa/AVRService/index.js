@@ -17,7 +17,7 @@ const LaunchRequestHandler = {
     async handle(handlerInput) {
         const row = await dynamo.getRowById(util.AlexaId);
         var speechText = 'Benvenuto, mi chiamo AVR, il tuo <lang xml:lang="en-US">Personal Shopping Assistant</lang>. ';
-        if (row.length > 0 && row[0].unityUserId.S !== 'disconnected') { 
+        if (row.length > 0 && await dynamo.isClientConnected(util.AlexaId)) { 
             speechText += 'In cosa posso aiutarti?'; 
         }
         else { 

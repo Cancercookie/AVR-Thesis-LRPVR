@@ -85,10 +85,20 @@ async function updateUnityId(items, connectionId) {
 	})
 }
 
+async function isClientConnected(alexaId = util.AlexaId) {
+	const row = await getRowById(alexaId);
+	if (row[0].unityUserId.S === 'disconnected'){
+		return false;
+	}else {
+		return true;
+	}
+}
+
 module.exports = {
     broadcast,
     params,
     putNewRow,
     getRowById,
-    updateUnityId
+    updateUnityId,
+    isClientConnected
 };
