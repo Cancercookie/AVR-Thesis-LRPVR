@@ -71,7 +71,7 @@ async function updateUnityId(items, connectionId) {
   	};
   	updateParams.Key = {
    		"alexaUserId": items[0].alexaUserId
-  	}
+  	};
   	updateParams.UpdateExpression = "SET unityUserId = :u";
 	return await new Promise(function(resolve, reject) {
 		dynamodb.updateItem(updateParams, 
@@ -86,12 +86,42 @@ async function updateUnityId(items, connectionId) {
 }
 
 async function isClientConnected(alexaId = util.AlexaId) {
+	return !(await getClientId(alexaId) === 'disconnected');
+}
+
+async function getClientId(alexaId = util.AlexaId) {
 	const row = await getRowById(alexaId);
-	if (row[0].unityUserId.S === 'disconnected'){
-		return false;
-	}else {
-		return true;
-	}
+	return row[0].unityUserId.S;
+}
+
+async function writeRow(alexaId = util.AlexaId, writeParams) {
+	var updateParams = _.cloneDeep(params);
+  	updateParams.Key = {
+   		"alexaUserId": {
+   			S: alexaId
+   		}
+  	};
+  	updateParams.ExpressionAttributeValues = {};
+  	updateParams.UpdateExpression = "SET ";
+  	const keys = Object.keys(writeParams);
+  	const vals = Object.values(writeParams);
+  	keys.forEach((k, idx) => { 
+  		const EAV = ':' + idx;
+  		updateParams.ExpressionAttributeValues[EAV] = { S: vals[idx]};
+  		if (idx > 0) { updateParams.UpdateExpression += ', ';}
+  		const s = k + ' = ' + EAV;
+  		updateParams.UpdateExpression += s;
+  	});
+	return await new Promise(function(resolve, reject) {
+		dynamodb.updateItem(updateParams, 
+			(err, data) => {
+   				if (err) {
+					console.log('Error: ', err);
+					reject(err);
+				}
+  				resolve(data);
+  		});
+	})
 }
 
 module.exports = {
@@ -99,6 +129,8 @@ module.exports = {
     params,
     putNewRow,
     getRowById,
+    getClientId,
     updateUnityId,
-    isClientConnected
+    isClientConnected,
+    writeRow
 };

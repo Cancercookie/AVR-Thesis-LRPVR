@@ -5,9 +5,8 @@
 const Alexa = require('ask-sdk-core');
 const dynamo = require('dynamo.js');
 const util = require('util.js');
-const persistenceAdapter = require('ask-sdk-dynamodb-persistence-adapter');
-const webSocketHandler = require('socketHandler.js');
-
+const socketHandler = require('socketHandler.js');
+var connectionId = '';
 /*DEFAULT INTENT HANDLERS */
 
 const LaunchRequestHandler = {
@@ -15,9 +14,9 @@ const LaunchRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
     async handle(handlerInput) {
-        const row = await dynamo.getRowById(util.AlexaId);
         var speechText = 'Benvenuto, mi chiamo AVR, il tuo <lang xml:lang="en-US">Personal Shopping Assistant</lang>. ';
-        if (row.length > 0 && await dynamo.isClientConnected(util.AlexaId)) { 
+        if (await dynamo.isClientConnected(util.AlexaId)) { 
+            connectionId = await dynamo.getClientId(util.AlexaId);
             speechText += 'In cosa posso aiutarti?'; 
         }
         else { 
@@ -167,15 +166,15 @@ const StartIntentHandler = {
 
 const TutorialIntentHandler = {
     canHandle(handlerInput){
-        if(handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'Tutorial') {
-            console.log(handlerInput.requestEnvelope.request.intent.slots.step);
-            const slots = handlerInput.requestEnvelope.request.intent.slots;
+        const handleRequest = handlerInput.requestEnvelope.request;
+        if(handleRequest.type === 'IntentRequest'&& handleRequest.intent.name === 'Tutorial') {
+            const slots = handleRequest.intent.slots;
+            console.log(slots);
             if(slots.step || slots.stepCardinal){
                 const attributesManager = handlerInput.attributesManager;
                 const sessionAttributes = attributesManager.getSessionAttributes();
-                sessionAttributes.step = handlerInput.requestEnvelope.request.intent.slots.step.value;
-                sessionAttributes.stepCardinal = handlerInput.requestEnvelope.request.intent.slots.stepCardinal.value;
+                sessionAttributes.step = handleRequest.intent.slots.step.value;
+                sessionAttributes.stepCardinal = handleRequest.intent.slots.stepCardinal.value;
                 attributesManager.setSessionAttributes(sessionAttributes);
                 return true;
             }
@@ -186,22 +185,32 @@ const TutorialIntentHandler = {
     async handle(handlerInput){
         const attributesManager = handlerInput.attributesManager;
         let sessionAttributes = attributesManager.getSessionAttributes();
-        // se AVR non riesce a ricevere lo step ricominciamo daccapo (can be improved)
-        if (typeof sessionAttributes.step === 'undefined' && typeof sessionAttributes.stepCardinal === 'undefined'){
-            sessionAttributes = await attributesManager.getPersistentAttributes() || {};
-        }
+        var speechText = '';
+        var proceeded = true;
         console.log(sessionAttributes);
-        if(sessionAttributes.step === '1' || sessionAttributes.stepCardinal === '1o'){
-            sessionAttributes.step = '1';
-            sessionAttributes.stepCardinal = '1o';
-            attributesManager.setPersistentAttributes({step: sessionAttributes.step});
-            attributesManager.setPersistentAttributes({stepCardinal: sessionAttributes.stepCardinal});
-            webSocketHandler.sendMessageToClient({Body: 'funziona'}, {requestContext: {connectionId: sessionAttributes.connectionId}});
-            await attributesManager.savePersistentAttributes();
-            return handlerInput.responseBuilder.speak('<emphasis level="reduced">Iniziamo con le presentazioni: mi chiamo <lang xml:lang="en-US">Assistant in Virtual Retailing</lang>, per gli amici AVR. E tu come ti chiami?</emphasis>').getResponse();
-        }else{
-            return handlerInput.responseBuilder.speak('<emphasis level="reduced">Ok, iniziamo!</emphasis><say-as interpret-as="interjection">yippii</say-as>').getResponse();
+        // se AVR non riceve lo step ricominciamo dall'ultimo step eseguito (can be improved)
+        if (typeof sessionAttributes.step === 'undefined' && typeof sessionAttributes.stepCardinal === 'undefined'){
+            sessionAttributes = await attributesManager.getRowById(util.AlexaId) || {};
+            proceeded = false;
         }
+        if (typeof sessionAttributes.step === 'undefined'){
+            sessionAttributes.step = sessionAttributes.stepCardinal.slice(0,-1); 
+        }else if(typeof sessionAttributes.stepCardinal === 'undefined'){
+            sessionAttributes.stepCardinal = sessionAttributes.step + 'o';
+        }
+        if(sessionAttributes.step === '1' || sessionAttributes.stepCardinal === '1o'){
+            console.log(sessionAttributes);
+            speechText += '<emphasis level="reduced">Iniziamo con le presentazioni: mi chiamo <lang xml:lang="en-US">Assistant in Virtual Retailing</lang>, per gli amici AVR. E tu come ti chiami?</emphasis>';
+        }else{
+            speechText += '<emphasis level="reduced">Ok, iniziamo!</emphasis><say-as interpret-as="interjection">yippii</say-as>';
+        }
+        if (proceeded) {
+            const objToW = { step: sessionAttributes.step, stepCardinal: sessionAttributes.stepCardinal };
+            await dynamo.writeRow(util.AlexaId, objToW);
+        }
+        const row = await dynamo.getRowById(util.AlexaId);
+        await socketHandler.sendMessageToClient(row, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 }
 
@@ -211,7 +220,6 @@ const TutorialIntentHandler = {
 // defined are included below. The order matters - they're processed top to bottom.
 
 exports.handler = Alexa.SkillBuilders.custom()
-    .withPersistenceAdapter(new persistenceAdapter.DynamoDbPersistenceAdapter({tableName: 'AVRTProvable', createTable: true}))
     .addRequestHandlers(
         BuyIntentHandler,
         ChatIntentHandler,
