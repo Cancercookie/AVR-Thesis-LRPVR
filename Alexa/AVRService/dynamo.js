@@ -38,13 +38,16 @@ async function putNewRow(connectionId, alexaId = util.AlexaId) {
 	}
 }
 
-async function getRowById(alexaId) {
+async function getRowById(alexaId, projection) {
 	var scanParams = _.cloneDeep(params);
 	scanParams.ExpressionAttributeValues = {
    		":a": {
     	 	S: alexaId    
  		}
   	};
+  	if (!!projection) {
+  		scanParams.ProjectionExpression = projection;
+  	}
 	scanParams.FilterExpression = "alexaUserId = :a";
 	return await new Promise(function(resolve, reject) {
 		dynamodb.scan(scanParams, 

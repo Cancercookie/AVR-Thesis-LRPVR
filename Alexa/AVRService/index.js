@@ -17,6 +17,7 @@ const LaunchRequestHandler = {
         var speechText = 'Benvenuto, mi chiamo AVR, il tuo <lang xml:lang="en-US">Personal Shopping Assistant</lang>. ';
         if (await dynamo.isClientConnected(util.AlexaId)) { 
             connectionId = await dynamo.getClientId(util.AlexaId);
+            await socketHandler.sendMessageToClient('AVR Skill Inititated', connectionId);
             speechText += 'In cosa posso aiutarti?'; 
         }
         else { 
@@ -186,29 +187,30 @@ const TutorialIntentHandler = {
         const attributesManager = handlerInput.attributesManager;
         let sessionAttributes = attributesManager.getSessionAttributes();
         var speechText = '';
-        var proceeded = true;
+        var mustWrite = true;
         console.log(sessionAttributes);
         // se AVR non riceve lo step ricominciamo dall'ultimo step eseguito (can be improved)
         if (typeof sessionAttributes.step === 'undefined' && typeof sessionAttributes.stepCardinal === 'undefined'){
             sessionAttributes = await attributesManager.getRowById(util.AlexaId) || {};
             proceeded = false;
         }
-        if (typeof sessionAttributes.step === 'undefined'){
+        else if (typeof sessionAttributes.step === 'undefined'){
             sessionAttributes.step = sessionAttributes.stepCardinal.slice(0,-1); 
-        }else if(typeof sessionAttributes.stepCardinal === 'undefined'){
+        }
+        else if (typeof sessionAttributes.stepCardinal === 'undefined'){
             sessionAttributes.stepCardinal = sessionAttributes.step + 'o';
         }
         if(sessionAttributes.step === '1' || sessionAttributes.stepCardinal === '1o'){
-            console.log(sessionAttributes);
             speechText += '<emphasis level="reduced">Iniziamo con le presentazioni: mi chiamo <lang xml:lang="en-US">Assistant in Virtual Retailing</lang>, per gli amici AVR. E tu come ti chiami?</emphasis>';
         }else{
             speechText += '<emphasis level="reduced">Ok, iniziamo!</emphasis><say-as interpret-as="interjection">yippii</say-as>';
         }
-        if (proceeded) {
+        if (mustWrite) {
             const objToW = { step: sessionAttributes.step, stepCardinal: sessionAttributes.stepCardinal };
             await dynamo.writeRow(util.AlexaId, objToW);
         }
-        const row = await dynamo.getRowById(util.AlexaId);
+        var row = await dynamo.getRowById(util.AlexaId, 'step, stepCardinal');
+
         await socketHandler.sendMessageToClient(row, connectionId);
         return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
