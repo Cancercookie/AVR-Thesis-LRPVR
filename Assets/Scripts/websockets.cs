@@ -26,7 +26,7 @@ public class websockets : MonoBehaviour
             WSRead();
             WSReceiver();
         }
-        catch (Exception e) { Debug.Log("woe " + e.Message); }
+        catch (Exception e) { Debug.Log("Web Socket Exception:  " + e.Message); }
     }
 
     async void WSRead()
