@@ -4,18 +4,29 @@ using UnityEngine;
 
 public class Article : MonoBehaviour
 {
+    // Common
+    private string articleID;
     public string articleName;
     public string description;
-
     public float price;
+    public float weight;
+
+    // Food
+    public string[] allergens;
     public string[] characteristics;
 
-    // Start is called before the first frame update
+    // Clothing
+    public string brand;
+    // - Instance
+    public enum size {XS, S, M, L, XL};
+    public string color;
+    
+
     void Start()
     {
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         

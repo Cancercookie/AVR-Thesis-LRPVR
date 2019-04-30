@@ -6,45 +6,85 @@ using UnityEngine.UI;
 public class ArticleUI : MonoBehaviour
 {
     private float speed = 50.0f;
-    private Article article;
-    private string URI = "ArticleUI/ArticleCanvas/ArticleFocus";
-    // Start is called before the first frame update
+    public Article article;
+    public bool visible = true;
+    public bool working = false;
+    public bool allPrepped = false;
+    private string URI = "ArticleUI/Canvas";
+
     void Start()
     {
-        articlePrep();
-        UIPrep();
+        startPrep(); 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Spin();
+        if (visible)
+        {
+            if (!working)
+            {
+                startPrep();    
+            }
+            Spin();
+        }
+        else
+        {
+            GameObject.DestroyImmediate(this);
+        }
+
     }
 
-    void Spin()
+    //costructor?
+    //public ArticleUI() { }
+
+    private void Spin()
     {
-        GameObject.Find(URI + "/Pasta").transform.Rotate(Vector3.right, speed * Time.deltaTime);
+        GameObject.Find(URI + "/Focus/Pasta").transform.Rotate(Vector3.right, speed * Time.deltaTime);
     }
 
-    void articlePrep()
+    private void articlePrep()
     {
-        Vector3 scale = GameObject.Find(URI + "/Pasta").transform.localScale;
+        Vector3 scale = GameObject.Find(URI + "/Focus/Pasta").transform.localScale;
         scale.x = scale.x * 0.5f;
         scale.y = scale.y * 0.5f;
         scale.z = scale.z * 0.5f; ;
-        GameObject.Find(URI + "/Pasta").transform.localScale = scale;
+        GameObject.Find(URI + "/Focus/Pasta").transform.localScale = scale;
+        GameObject.Find(URI + "/Focus/Pasta").GetComponent<Rigidbody>().useGravity = false;
     }
 
-    void UIPrep()
+    private void UIPrep()
     {
-        article = GameObject.Find(URI + "/Pasta").GetComponent<Article>();
+        article = GameObject.Find(URI + "/Focus/Pasta").GetComponent<Article>();
         Canvas canvas = this.GetComponentInChildren<Canvas>();
+        ScrollRect scroll = this.GetComponentInChildren<ScrollRect>();
+        scroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
         Text title = GameObject.FindWithTag("Title").GetComponent<Text>();
         title.text = article.articleName;
         Text price = GameObject.FindWithTag("Price").GetComponent<Text>();
         price.text = article.price.ToString("F") + "€";
         Text description = GameObject.FindWithTag("Description").GetComponent<Text>();
         description.text = article.description;
-        Debug.Log("Here is: " + canvas);
+    }
+
+    void close()
+    {
+        allPrepped = false;
+    }
+
+    public void toggleVisibility()
+    {
+        visible = !visible;
+    }
+
+    private void startPrep()
+    {
+        if (visible)
+        {
+            working = true;
+            articlePrep();
+            UIPrep();
+            allPrepped = true;
+            working = false;
+        }
     }
 }
