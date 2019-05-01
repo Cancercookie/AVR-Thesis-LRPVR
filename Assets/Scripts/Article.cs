@@ -5,6 +5,7 @@ using UnityEngine;
 public class Article : MonoBehaviour
 {
     // Common
+    [SerializeField]
     private string articleID;
     public string articleName;
     public string description;
@@ -19,16 +20,22 @@ public class Article : MonoBehaviour
     public string brand;
     // - Instance
     public enum size {XS, S, M, L, XL};
+    public size Size;
     public string color;
-    
+    private ArticleUI articleUI;
+
+    void Awake()
+    {
+        getInfoFromDB();
+    }
 
     void Start()
     {
 
     }
 
-    void Update()
+    void getInfoFromDB()
     {
-        
+
     }
 }

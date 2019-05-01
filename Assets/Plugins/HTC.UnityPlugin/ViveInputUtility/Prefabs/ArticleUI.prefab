@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.99117047}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2.1, y: -0.0010463265}
+  m_AnchoredPosition: {x: 2.1, y: 0.00078415486}
   m_SizeDelta: {x: 0, y: 307.2203}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &3818250538647475574
@@ -1201,7 +1201,6 @@ RectTransform:
   - {fileID: 3818250540170623664}
   - {fileID: 3818250540182123416}
   - {fileID: 3818250538695823013}
-  - {fileID: 7666615378536718174}
   m_Father: {fileID: 3818250540443997067}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2177,7 +2176,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3818250540367784721}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9954411
+  m_Size: 0.9999777
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2326,7 +2325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7756d4d875e54fb448f69a874308a8c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  article: {fileID: 4695465293575765460}
+  article: {fileID: 0}
   visible: 1
   working: 0
   allPrepped: 0
@@ -2546,125 +2545,3 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
---- !u!1001 &3818250540388399964
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 3818250539893187773}
-    m_Modifications:
-    - target: {fileID: 76441571166249992, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_Name
-      value: Pasta
-      objectReference: {fileID: 0}
-    - target: {fileID: 76441571166249992, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_Layer
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.05791581
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.855
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.64987624
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.82773936
-      objectReference: {fileID: 0}
-    - target: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.2816663
-      objectReference: {fileID: 0}
-    - target: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: articleName
-      value: De cecco
-      objectReference: {fileID: 0}
-    - target: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: description
-      value: "La pasta pi\xF9 buona di tutte. "
-      objectReference: {fileID: 0}
-    - target: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
-        type: 3}
-      propertyPath: price
-      value: 0.9
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2d8ddd446516a7e4999edfba717edda1, type: 3}
---- !u!4 &7666615378536718174 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6816317555443065858, guid: 2d8ddd446516a7e4999edfba717edda1,
-    type: 3}
-  m_PrefabInstance: {fileID: 3818250540388399964}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4695465293575765460 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
-    type: 3}
-  m_PrefabInstance: {fileID: 3818250540388399964}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 393cc5df5dcaee741b71166d5f299de1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
