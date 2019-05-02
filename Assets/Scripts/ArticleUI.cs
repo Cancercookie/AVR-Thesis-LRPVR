@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ArticleUI : MonoBehaviour
@@ -19,14 +17,14 @@ public class ArticleUI : MonoBehaviour
     void Update()
     {
         canvas.gameObject.SetActive(visible);
+        select();
     }
 
-    public void open(Article a)
+    public void open()
     {
-        article = a;
+        visible = true;
         articlePrep();
         UIPrep();
-        visible = true;
     }
 
     private void Spin()
@@ -46,7 +44,9 @@ public class ArticleUI : MonoBehaviour
 
     private void UIPrep()
     {
+
         // MOVE UI TO ARTICLE LOCATION + OFFSET
+        transform.position = article.transform.position;
         Text description = GameObject.FindWithTag("Description").GetComponent<Text>();
         Text price = GameObject.FindWithTag("Price").GetComponent<Text>();
         Text title = GameObject.FindWithTag("Title").GetComponent<Text>();
@@ -56,6 +56,25 @@ public class ArticleUI : MonoBehaviour
         title.text = article.articleName;
         price.text = article.price.ToString("F") + "€";
         description.text = article.description;
+    }
+
+    private void select()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 300f))
+        {
+            Debug.Log(hit.transform.name);
+            article = hit.transform.GetComponent<Article>();
+            if (article != null)
+            {
+                open();
+            }
+            else
+            {
+                visible = false;
+            }
+            
+        }
     }
 
     public void close()

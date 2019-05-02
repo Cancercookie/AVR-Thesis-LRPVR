@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Article : MonoBehaviour
 {
@@ -32,6 +30,11 @@ public class Article : MonoBehaviour
     void Start()
     {
 
+    }
+
+    void spawnUI()
+    {
+       // articleUI.transform.localPosition 
     }
 
     void getInfoFromDB()
