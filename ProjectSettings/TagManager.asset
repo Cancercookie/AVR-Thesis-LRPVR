@@ -44,3 +44,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Crossair
+    uniqueID: 1132716051
+    locked: 0
+  - name: UI
+    uniqueID: 22280219
+    locked: 0
