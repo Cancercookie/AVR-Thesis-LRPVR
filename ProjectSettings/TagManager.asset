@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Title
   - Price
-  - Description
+  - Cart Count
   layers:
   - Default
   - TransparentFX
