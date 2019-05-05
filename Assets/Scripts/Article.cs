@@ -4,10 +4,10 @@ public class Article : MonoBehaviour
 {
     // Common
     [SerializeField]
-    private string articleID;
+    public string articleID;
     public string articleName;
     public string description;
-    public float price;
+    public double price;
     public float weight;
 
     // Food
