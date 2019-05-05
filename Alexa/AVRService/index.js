@@ -194,16 +194,12 @@ const TutorialIntentHandler = {
             sessionAttributes = await attributesManager.getRowById(util.AlexaId) || {};
             proceeded = false;
         }
-        else if (typeof sessionAttributes.step === 'undefined'){
-            sessionAttributes.step = sessionAttributes.stepCardinal.slice(0,-1); 
-        }
-        else if (typeof sessionAttributes.stepCardinal === 'undefined'){
-            sessionAttributes.stepCardinal = sessionAttributes.step + 'o';
-        }
-        if(sessionAttributes.step === '1' || sessionAttributes.stepCardinal === '1o'){
+        else if (typeof sessionAttributes.step === 'undefined'){ sessionAttributes.step = sessionAttributes.stepCardinal.slice(0,-1); }
+        else if (typeof sessionAttributes.stepCardinal === 'undefined'){ sessionAttributes.stepCardinal = sessionAttributes.step + 'o'; }
+        if(sessionAttributes.step === '1'){
             speechText += '<emphasis level="reduced">Iniziamo con le presentazioni: mi chiamo <lang xml:lang="en-US">Assistant in Virtual Retailing</lang>, per gli amici AVR. E tu come ti chiami?</emphasis>';
         }else{
-            speechText += '<emphasis level="reduced">Ok, iniziamo!</emphasis><say-as interpret-as="interjection">yippii</say-as>';
+            speechText += 'Male male';
         }
         if (mustWrite) {
             const objToW = { step: sessionAttributes.step, stepCardinal: sessionAttributes.stepCardinal };

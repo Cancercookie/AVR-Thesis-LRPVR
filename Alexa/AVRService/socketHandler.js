@@ -39,6 +39,12 @@ async function main(event, context) {
     return util.success;
 }
 
+async function getArticles(event, context) {
+	const articles = await dynamo.getArticles();
+	await sendMessageToClient(articles, event.requestContext.connectionId);
+    return util.success;
+}
+
 async function read(event, context, callback) {
 	const row = await dynamo.getRowById(util.AlexaId);
 	await sendMessageToClient(row, event.requestContext.connectionId);
@@ -56,5 +62,6 @@ module.exports = {
     sendMessageToClient,
   	connectionManager,
   	read,
-  	write
+  	write,
+  	getArticles
 };

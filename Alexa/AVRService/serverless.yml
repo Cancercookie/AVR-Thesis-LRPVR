@@ -55,6 +55,11 @@ functions:
     events:
       - websocket:
           route: write
+  socketGetArticles:
+    handler: socketHandler.getArticles
+    events:
+      - websocket:
+          route: getArticles
   broadcast:
     handler: dynamo.broadcast
     events:
@@ -81,6 +86,24 @@ resources:
           - IndexName: reverse
             KeySchema:
               - AttributeName: alexaUserId
+                KeyType: HASH
+            Projection:
+                ProjectionType: ALL
+    Articles:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Articles
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: articleID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: articleID
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: reverse
+            KeySchema:
+              - AttributeName: articleID
                 KeyType: HASH
             Projection:
                 ProjectionType: ALL

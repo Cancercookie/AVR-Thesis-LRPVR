@@ -38,6 +38,24 @@ async function putNewRow(connectionId, alexaId = util.AlexaId) {
 	}
 }
 
+async function getArticles() {
+	const scanParams = {
+		TableName: 'Articles',
+		Select: 'ALL_ATTRIBUTES'
+	}
+	var documentClient = new util.AWS.DynamoDB.DocumentClient();
+	return await new Promise(function(resolve, reject) {
+		documentClient.scan(scanParams, 
+			(err, data) => {
+   				if (err) {
+					console.log('Error: ', err);
+					reject(err);
+				}
+  				resolve(data.Items);
+  		});
+	})
+}
+
 async function getRowById(alexaId, projection) {
 	var scanParams = _.cloneDeep(params);
 	scanParams.ExpressionAttributeValues = {
@@ -132,6 +150,7 @@ module.exports = {
     params,
     putNewRow,
     getRowById,
+    getArticles,
     getClientId,
     updateUnityId,
     isClientConnected,
