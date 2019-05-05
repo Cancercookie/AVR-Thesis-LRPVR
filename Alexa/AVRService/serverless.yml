@@ -1,0 +1,86 @@
+service: AVRService
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  stage: production
+  websocketApiName: websocket-avr
+  websocketApiRouteSelectionExpression: $request.body.action
+  iamRoleStatements: 
+    - Effect: "Allow" 
+      Action:
+        - "*"
+      Resource: "*"
+
+package:
+  exclude:
+    - node_modules/**
+
+plugins:
+  - serverless-layers
+  - serverless-offline
+
+custom:
+  serverless-layers:
+    compileDir: '.serverless'
+    packagePath: 'package.json'
+    compatibleRuntimes: ['nodejs']
+    layersDeploymentBucket: "avr-layers-bucket"
+
+functions:
+  AVRLambda:
+    handler: index.handler
+    events:
+      - alexaSkill: amzn1.ask.skill.ede64be4-ed2c-40c9-9807-129e07a830c4
+  AVRSocket:
+    handler: socketHandler.main
+    events:
+      - websocket: 
+          route: $default
+  connectionManager:
+    handler: socketHandler.connectionManager
+    events:
+      - websocket:
+          route: $connect
+      - websocket:
+          route: $disconnect
+  socketRead:
+    handler: socketHandler.read
+    events:
+      - websocket:
+          route: read
+  socketWrite:
+    handler: socketHandler.write
+    events:
+      - websocket:
+          route: write
+  broadcast:
+    handler: dynamo.broadcast
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt: [AVRTable, StreamArn]
+resources:
+  Resources:
+    AVRTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: AVRTable
+        BillingMode: PAY_PER_REQUEST
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
+        AttributeDefinitions:
+          - AttributeName: alexaUserId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: alexaUserId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: reverse
+            KeySchema:
+              - AttributeName: alexaUserId
+                KeyType: HASH
+            Projection:
+                ProjectionType: ALL

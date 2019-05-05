@@ -1,0 +1,25 @@
+{
+  "name": "avr",
+  "version": "0.9.0",
+  "description": "Assistant in Virtual Reality work of thesis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jari Tarabelli",
+  "license": "MIT",
+  "dependencies": {
+    "ask-sdk": "^2.0.0",
+    "ask-sdk-core": "^2.0.7",
+    "ask-sdk-dynamodb-persistence-adapter": "^2.0.0",
+    "ask-sdk-model": "^1.4.1",
+    "ask-sdk-s3-persistence-adapter": "^2.0.0",
+    "aws-sdk": "^2.326.0",
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "serverless-layers": "^1.1.1",
+    "serverless-offline": "^4.9.4",
+    "serverless-websockets-plugin": "^1.0.0"
+  }
+}
