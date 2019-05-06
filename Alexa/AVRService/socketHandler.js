@@ -1,4 +1,5 @@
 const util = require('util.js');
+const main = require('main.js');
 const dynamo = require('dynamo.js')
 
 async function sendMessageToClient(data, connectionId) {
@@ -58,10 +59,23 @@ async function write(event, context, callback) {
     return util.success;
 }
 
+async function buy(event, context, callback) {
+	main.buy(util.AlexaId);
+    return util.success;
+}
+
+async function addToCart(event, context, callback) {
+	const body = JSON.parse(event.body);
+	main.addToCart(util.AlexaId), body.addParams;
+    return util.success;
+}
+
 module.exports = {
     sendMessageToClient,
   	connectionManager,
   	read,
   	write,
+  	buy,
+  	addToCart,
   	getArticles
 };

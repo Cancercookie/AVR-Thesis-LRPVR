@@ -56,27 +56,51 @@ async function getArticles() {
 	})
 }
 
-async function getRowById(alexaId, projection) {
-	var scanParams = _.cloneDeep(params);
-	scanParams.ExpressionAttributeValues = {
-   		":a": {
-    	 	S: alexaId    
- 		}
-  	};
-  	if (!!projection) {
-  		scanParams.ProjectionExpression = projection;
-  	}
-	scanParams.FilterExpression = "alexaUserId = :a";
-	return await new Promise(function(resolve, reject) {
-		dynamodb.scan(scanParams, 
-			(err, data) => {
-   				if (err) {
-					console.log('Error: ', err);
-					reject(err);
-				}
-  				resolve(data.Items);
-  		});
-	})
+async function getRowById(alexaId, projection, clean = false) {
+	if (!clean) {
+		var scanParams = _.cloneDeep(params);
+		scanParams.ExpressionAttributeValues = {
+	   		":a": {
+	    	 	S: alexaId    
+	 		}
+	  	};
+	  	if (!!projection) {
+	  		scanParams.ProjectionExpression = projection;
+	  	}
+		scanParams.FilterExpression = "alexaUserId = :a";
+		return await new Promise(function(resolve, reject) {
+			dynamodb.scan(scanParams, 
+				(err, data) => {
+	   				if (err) {
+						console.log('Error: ', err);
+						reject(err);
+					}
+	  				resolve(data.Items);
+	  		});
+		});
+	}else{
+		var scanParams = _.cloneDeep(params);
+		scanParams.ExpressionAttributeValues = {
+	   		":a": {
+	    	 	S: alexaId    
+	 		}
+	  	};
+	  	if (!!projection) {
+	  		scanParams.ProjectionExpression = projection;
+	  	}
+	  	var documentClient = new util.AWS.DynamoDB.DocumentClient();
+		scanParams.FilterExpression = "alexaUserId = :a";
+		return await new Promise(function(resolve, reject) {
+			documentClient.scan(scanParams, 
+				(err, data) => {
+	   				if (err) {
+						console.log('Error: ', err);
+						reject(err);
+					}
+	  				resolve(data.Items);
+	  		});
+		});
+	}
 }
 
 // if the alexaUserId is already present we update the id for the client

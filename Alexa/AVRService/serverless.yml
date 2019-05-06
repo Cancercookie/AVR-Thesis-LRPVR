@@ -60,6 +60,16 @@ functions:
     events:
       - websocket:
           route: getArticles
+  socketAddToCart:
+    handler: socketHandler.addToCart
+    events:
+      - websocket:
+          route: addToCart
+  socketBuy:
+    handler: socketHandler.buy
+    events:
+      - websocket:
+          route: buy
   broadcast:
     handler: dynamo.broadcast
     events:

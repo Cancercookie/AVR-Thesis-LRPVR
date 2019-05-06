@@ -5,8 +5,10 @@
 const Alexa = require('ask-sdk-core');
 const dynamo = require('dynamo.js');
 const util = require('util.js');
+const main = require('main.js');
 const socketHandler = require('socketHandler.js');
 var connectionId = '';
+
 /*DEFAULT INTENT HANDLERS */
 
 const LaunchRequestHandler = {
@@ -111,6 +113,18 @@ const BuyIntentHandler = {
             && handlerInput.requestEnvelope.request.intent.name === 'Buy';
     },
     handle(handlerInput){
+        main.buy(util.alexaId);
+        return handlerInput.responseBuilder.speak('Grazie mille per il tuo acquisto').getResponse();
+    }
+}
+
+const AddToCartIntentHandler = { // TODO: ADD ALEXA INTENT
+    canHandle(handlerInput){
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && handlerInput.requestEnvelope.request.intent.name === 'addToCart';
+    },
+    handle(handlerInput){
+        main.addToCart(util.alexaId);
         return handlerInput.responseBuilder.speak('Grazie mille per il tuo acquisto').getResponse();
     }
 }
@@ -192,7 +206,7 @@ const TutorialIntentHandler = {
         // se AVR non riceve lo step ricominciamo dall'ultimo step eseguito (can be improved)
         if (typeof sessionAttributes.step === 'undefined' && typeof sessionAttributes.stepCardinal === 'undefined'){
             sessionAttributes = await attributesManager.getRowById(util.AlexaId) || {};
-            proceeded = false;
+            // proceeded = false;
         }
         else if (typeof sessionAttributes.step === 'undefined'){ sessionAttributes.step = sessionAttributes.stepCardinal.slice(0,-1); }
         else if (typeof sessionAttributes.stepCardinal === 'undefined'){ sessionAttributes.stepCardinal = sessionAttributes.step + 'o'; }
@@ -212,14 +226,12 @@ const TutorialIntentHandler = {
     }
 }
 
-/* LAMBDA SETUP */
-// This handler acts as the entry point for your skill, routing all request and response
-// payloads to the handlers above. Make sure any new handlers or interceptors you've
-// defined are included below. The order matters - they're processed top to bottom.
+/*HANDLERS */
 
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         BuyIntentHandler,
+        AddToCartIntentHandler,
         ChatIntentHandler,
         PriceIntentHandler,
         SuggestIntentHandler,
