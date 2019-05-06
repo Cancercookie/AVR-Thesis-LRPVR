@@ -24,7 +24,7 @@ public class ArticleUI : MonoBehaviour
     {
         crossair = UI_Camera.transform.GetComponentInChildren<Image>();
         interactUI = SteamVR_Actions._default.InteractUI;
-        cart = gameObject.transform.Find("Canvas/BuyBtn/Buy").GetComponent<cartHandler>();
+        cart = gameObject.transform.Find("Canvas/AddToCartBtn/AddToCart").GetComponent<cartHandler>();
     }
 
     void Start()
@@ -50,6 +50,7 @@ public class ArticleUI : MonoBehaviour
         {
             transform.position = Vector3.zero;
         }
+        cartCount.text = cart.qtInCart.ToString();
     }
 
     public void open()
@@ -70,9 +71,8 @@ public class ArticleUI : MonoBehaviour
     {
         transform.position = article.transform.position;
         infoScroll.GetComponentInChildren<Text>().text = article.description;
-        transform.Find("Canvas/BuyBtn/Price").GetComponent<Text>().text = article.price.ToString("F") + "€";
+        transform.Find("Canvas/AddToCartBtn/Price").GetComponent<Text>().text = article.price.ToString("F") + "€";
         transform.Find("Canvas/Title/Text").GetComponent<Text>().text = article.articleName;
-        cartCount.text = cart.qtInCart.ToString();
     }
 
     private void select()
@@ -81,14 +81,6 @@ public class ArticleUI : MonoBehaviour
         RaycastHit hitUI;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5f)) {
             article = hit.transform.GetComponent<Article>();
-            if (hit.collider != null)
-                crossair.transform.position = hit.point;
-            else
-                crossair.transform.position = transform.position + (transform.position * 5f);
-            if (article != null)
-                crossair.color = Color.green;
-            else
-                crossair.color = Color.red;
             if (interactUI.GetStateDown(SteamVR_Input_Sources.Any))
             {
                 if(article != null)

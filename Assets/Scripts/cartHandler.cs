@@ -18,7 +18,6 @@ public class cartHandler : MonoBehaviour
     {
         qtInCart += 1;
         articlesInCart.Add(articleUI.article);
-        Debug.Log(articlesInCart.Count);
         articleUI.close();
     }
 }
