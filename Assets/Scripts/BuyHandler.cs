@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class BuyHandler : MonoBehaviour
 {
+    public Material greenLit;
+
     private cartHandler cart;
     private GameObject cashier;
-    public Material greenLit;
+    private websockets WS;
+    
     void Awake()
     {
+        WS = GameObject.Find("Store").GetComponent<websockets>();
         cart = GameObject.Find("ArticleUI/Canvas/AddToCartBtn/AddToCart").GetComponent<cartHandler>();
         cashier = GameObject.Find("Store/Checkout/Cashier");
     }
@@ -23,7 +27,7 @@ public class BuyHandler : MonoBehaviour
 
     public void buyAll()
     {
+        WS.buy();
         cart.qtInCart = 0;
-        // AZIONE WS
     }
 }

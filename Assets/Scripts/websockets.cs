@@ -37,12 +37,6 @@ public class websockets : MonoBehaviour
         catch (Exception e) { Debug.Log("Web Socket Exception:  " + e.Message); }
     }
 
-    async void WSGetArticles()
-    {
-        ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: getArticles}"));
-        await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
-    }
-    
     async void WSReceiver()
     {
         WebSocketReceiveResult r = await cws.ReceiveAsync(buf, CancellationToken.None);
@@ -71,11 +65,36 @@ public class websockets : MonoBehaviour
         WSReceiver();
     }
 
+    async void WSGetArticles()
+    {
+        ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: getArticles}"));
+        await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
+    }
+
+    public async void addToCart(string ArticleID)
+    {
+        Debug.Log(ArticleID);
+        ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{ \"action\": \"addToCart\", \"articleIDs\": \"" + ArticleID + "\"}"));
+        await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
+    }
+
+    public async void buy()
+    {
+        ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: buy}"));
+        await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
+    }
+
     private List<DBArticle> GenerateArticlesInfos()
     {
         res = JsonHelper.fixJson(res);
         List<DBArticle> json = new List<DBArticle>(JsonHelper.FromJson<DBArticle>(res));
         return json;
+    }
+
+    private async void OnApplicationQuit()
+    {
+        ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: disconnect}"));
+        await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
     }
 }
 
