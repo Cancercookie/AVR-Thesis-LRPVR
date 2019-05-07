@@ -88,7 +88,7 @@ async function getRowById(alexaId, projection, clean = false) {
 						console.log('Error: ', err);
 						reject(err);
 					}
-	  				resolve(data.Items);
+	  				resolve(data.Item);
 	  		});
 		});
 	}
@@ -164,6 +164,15 @@ async function writeRow(alexaId = util.AlexaId, writeParams, clean = false) {
 		updateParams.Key = {
 			alexaUserId: alexaId
 		}
+		const keys = Object.keys(writeParams);
+	  	const vals = Object.values(writeParams);
+	  	keys.forEach((k, idx) => { 
+	  		const EAV = ':' + idx;
+	  		updateParams.ExpressionAttributeValues[EAV] = vals[idx];
+	  		if (idx > 0) { updateParams.UpdateExpression += ', ';}
+	  		const s = k + ' = ' + EAV;
+	  		updateParams.UpdateExpression += s;
+	  	});
 	  	var documentClient = new util.AWS.DynamoDB.DocumentClient();
 		return await new Promise(function(resolve, reject) {
 			documentClient.update(updateParams, 

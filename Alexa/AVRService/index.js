@@ -29,6 +29,7 @@ const LaunchRequestHandler = {
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
@@ -38,7 +39,7 @@ const HelpIntentHandler = {
             && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
     },
     handle(handlerInput) {
-        const speechText = 'Benvenuto, mi chiamo AVR. In cosa posso aiutarti?';
+        const speechText = 'In cosa posso aiutarti?';
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
@@ -63,8 +64,8 @@ const SessionEndedRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
     },
     handle(handlerInput) {
-        // Any cleanup logic goes here.
-        return handlerInput.responseBuilder.getResponse();
+        const speechText = 'Chiamami quando ne avrai bisogno';
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 };
 
@@ -101,6 +102,7 @@ const ErrorHandler = {
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
@@ -114,7 +116,10 @@ const BuyIntentHandler = {
     },
     handle(handlerInput){
         mainFuncs.buy(util.alexaId);
-        return handlerInput.responseBuilder.speak('Grazie mille per il tuo acquisto').getResponse();
+        return handlerInput.responseBuilder
+            .speak('Grazie mille per il tuo acquisto')
+            .withShouldEndSession(false)
+            .getResponse();
     }
 }
 
@@ -124,8 +129,15 @@ const AddToCartIntentHandler = { // TODO: ADD ALEXA INTENT
             && handlerInput.requestEnvelope.request.intent.name === 'addToCart';
     },
     handle(handlerInput){
-        mainFuncs.addToCart(util.alexaId);
-        return handlerInput.responseBuilder.speak('Grazie mille per il tuo acquisto').getResponse();
+        const attributesManager = handlerInput.attributesManager;
+        let sessionAttributes = attributesManager.getSessionAttributes();
+        var speechText = '';
+        console.log(sessionAttributes);
+        mainFuncs.addToCart(util.alexaId, sessionAttributes.article);
+        return handlerInput.responseBuilder
+        .speak('Grazie mille per il tuo acquisto')
+        .withShouldEndSession(false)
+        .getResponse();
     }
 }
 
@@ -135,7 +147,9 @@ const HideIntentHandler = {
             && handlerInput.requestEnvelope.request.intent.name === 'Hide';
     },
     handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+        return handlerInput.responseBuilder
+            .speak('Per riattivarmi, chiamami o premi il pulsante. Arrivederci')
+            .getResponse();
     }
 }
 
@@ -220,9 +234,8 @@ const TutorialIntentHandler = {
             await dynamo.writeRow(util.AlexaId, objToW);
         }
         var row = await dynamo.getRowById(util.AlexaId, 'step, stepCardinal');
-
         await socketHandler.sendMessageToClient(row, connectionId);
-        return handlerInput.responseBuilder.speak(speechText).getResponse();
+        return handlerInput.responseBuilder.speak(speechText).withShouldEndSession(false).getResponse();
     }
 }
 

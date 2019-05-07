@@ -60,14 +60,14 @@ async function write(event, context, callback) {
 }
 
 async function buy(event, context, callback) {
-	await mainFuncs.buy(util.AlexaId);
+	const res = await mainFuncs.buy(util.AlexaId);
     return util.success;
 }
 
 async function addToCart(event, context, callback) {
 	const body = JSON.parse(event.body);
 	console.log(body);
-	await mainFuncs.addToCart(util.AlexaId, body.addParams);
+	const res = await mainFuncs.addToCart(util.AlexaId, body.articleIDs);
     return util.success;
 }
 
