@@ -5,7 +5,7 @@
 const Alexa = require('ask-sdk-core');
 const dynamo = require('dynamo.js');
 const util = require('util.js');
-const main = require('main.js');
+const mainFuncs = require('main.js');
 const socketHandler = require('socketHandler.js');
 var connectionId = '';
 
@@ -113,7 +113,7 @@ const BuyIntentHandler = {
             && handlerInput.requestEnvelope.request.intent.name === 'Buy';
     },
     handle(handlerInput){
-        main.buy(util.alexaId);
+        mainFuncs.buy(util.alexaId);
         return handlerInput.responseBuilder.speak('Grazie mille per il tuo acquisto').getResponse();
     }
 }
@@ -124,7 +124,7 @@ const AddToCartIntentHandler = { // TODO: ADD ALEXA INTENT
             && handlerInput.requestEnvelope.request.intent.name === 'addToCart';
     },
     handle(handlerInput){
-        main.addToCart(util.alexaId);
+        mainFuncs.addToCart(util.alexaId);
         return handlerInput.responseBuilder.speak('Grazie mille per il tuo acquisto').getResponse();
     }
 }

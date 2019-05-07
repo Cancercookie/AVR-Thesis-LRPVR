@@ -57,17 +57,15 @@ async function getArticles() {
 }
 
 async function getRowById(alexaId, projection, clean = false) {
+	var scanParams = _.cloneDeep(params);
+	if (!!projection) { scanParams.ProjectionExpression = projection; }
+	scanParams.FilterExpression = "alexaUserId = :a";
 	if (!clean) {
-		var scanParams = _.cloneDeep(params);
 		scanParams.ExpressionAttributeValues = {
 	   		":a": {
-	    	 	S: alexaId    
+	   	 		S: alexaId    
 	 		}
-	  	};
-	  	if (!!projection) {
-	  		scanParams.ProjectionExpression = projection;
-	  	}
-		scanParams.FilterExpression = "alexaUserId = :a";
+ 		};
 		return await new Promise(function(resolve, reject) {
 			dynamodb.scan(scanParams, 
 				(err, data) => {
@@ -79,19 +77,12 @@ async function getRowById(alexaId, projection, clean = false) {
 	  		});
 		});
 	}else{
-		var scanParams = _.cloneDeep(params);
-		scanParams.ExpressionAttributeValues = {
-	   		":a": {
-	    	 	S: alexaId    
-	 		}
-	  	};
-	  	if (!!projection) {
-	  		scanParams.ProjectionExpression = projection;
-	  	}
+		scanParams.Key = {
+			alexaUserId: alexaId
+		}
 	  	var documentClient = new util.AWS.DynamoDB.DocumentClient();
-		scanParams.FilterExpression = "alexaUserId = :a";
 		return await new Promise(function(resolve, reject) {
-			documentClient.scan(scanParams, 
+			documentClient.get(scanParams, 
 				(err, data) => {
 	   				if (err) {
 						console.log('Error: ', err);
@@ -123,7 +114,7 @@ async function updateUnityId(items, connectionId) {
 			(err, data) => {
    				if (err) {
 					console.log('Error: ', err);
-					reject(err);
+					return reject(err);
 				}
   				resolve(data);
   		});
@@ -139,7 +130,7 @@ async function getClientId(alexaId = util.AlexaId) {
 	return row[0].unityUserId.S;
 }
 
-async function writeRow(alexaId = util.AlexaId, writeParams) {
+async function writeRow(alexaId = util.AlexaId, writeParams, clean = false) {
 	var updateParams = _.cloneDeep(params);
   	updateParams.Key = {
    		"alexaUserId": {
@@ -148,25 +139,43 @@ async function writeRow(alexaId = util.AlexaId, writeParams) {
   	};
   	updateParams.ExpressionAttributeValues = {};
   	updateParams.UpdateExpression = "SET ";
-  	const keys = Object.keys(writeParams);
-  	const vals = Object.values(writeParams);
-  	keys.forEach((k, idx) => { 
-  		const EAV = ':' + idx;
-  		updateParams.ExpressionAttributeValues[EAV] = { S: vals[idx]};
-  		if (idx > 0) { updateParams.UpdateExpression += ', ';}
-  		const s = k + ' = ' + EAV;
-  		updateParams.UpdateExpression += s;
-  	});
-	return await new Promise(function(resolve, reject) {
-		dynamodb.updateItem(updateParams, 
-			(err, data) => {
-   				if (err) {
-					console.log('Error: ', err);
-					reject(err);
-				}
-  				resolve(data);
-  		});
-	})
+  	if (!clean){
+	  	const keys = Object.keys(writeParams);
+	  	const vals = Object.values(writeParams);
+	  	keys.forEach((k, idx) => { 
+	  		const EAV = ':' + idx;
+	  		updateParams.ExpressionAttributeValues[EAV] = { S: vals[idx]};
+	  		if (idx > 0) { updateParams.UpdateExpression += ', ';}
+	  		const s = k + ' = ' + EAV;
+	  		updateParams.UpdateExpression += s;
+	  	});
+		return await new Promise(function(resolve, reject) {
+			dynamodb.updateItem(updateParams, 
+				(err, data) => {
+	   				if (err) {
+						console.log('Error: ', err);
+						reject(err);
+					}
+	  				resolve(data);
+	  		});
+		});
+	}
+	else{
+		updateParams.Key = {
+			alexaUserId: alexaId
+		}
+	  	var documentClient = new util.AWS.DynamoDB.DocumentClient();
+		return await new Promise(function(resolve, reject) {
+			documentClient.update(updateParams, 
+				(err, data) => {
+	   				if (err) {
+						console.log('Error: ', err);
+						reject(err);
+					}
+	  				resolve(data);
+	  		});
+		});
+	}
 }
 
 module.exports = {

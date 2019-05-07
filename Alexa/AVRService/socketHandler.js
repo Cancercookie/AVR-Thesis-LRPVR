@@ -1,5 +1,5 @@
 const util = require('util.js');
-const main = require('main.js');
+const mainFuncs = require('main.js');
 const dynamo = require('dynamo.js')
 
 async function sendMessageToClient(data, connectionId) {
@@ -60,13 +60,14 @@ async function write(event, context, callback) {
 }
 
 async function buy(event, context, callback) {
-	main.buy(util.AlexaId);
+	await mainFuncs.buy(util.AlexaId);
     return util.success;
 }
 
 async function addToCart(event, context, callback) {
 	const body = JSON.parse(event.body);
-	main.addToCart(util.AlexaId), body.addParams;
+	console.log(body);
+	await mainFuncs.addToCart(util.AlexaId, body.addParams);
     return util.success;
 }
 
