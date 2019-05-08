@@ -26,6 +26,7 @@ const LaunchRequestHandler = {
             dynamo.putNewRow('disconnected');
             speechText += 'Avvia il programma nella realtà virtuale per procedere. Fammi sapere quando sei pronto.'; 
         }
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
@@ -38,8 +39,9 @@ const HelpIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const speechText = 'In cosa posso aiutarti?';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
@@ -52,8 +54,9 @@ const CancelAndStopIntentHandler = {
             && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
                 || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const speechText = '<say-as interpret-as="interjection">vabbè</say-as>';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .getResponse();
@@ -63,8 +66,9 @@ const SessionEndedRequestHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const speechText = 'Chiamami quando ne avrai bisogno';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 };
@@ -77,10 +81,11 @@ const IntentReflectorHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const intentName = handlerInput.requestEnvelope.request.intent.name;
-        const speechText = `You just triggered ${intentName}`;
+        const speechText = `Intento: ${intentName}`;
         console.log('Errore nell handler');
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
@@ -95,10 +100,10 @@ const ErrorHandler = {
     canHandle() {
         return true;
     },
-    handle(handlerInput, error) {
+    async handle(handlerInput, error) {
         console.log(`~~~~ Error handled: ${error.message}`);
         const speechText = `Scusa, non ho capito. Riprova.`;
-
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
@@ -114,8 +119,9 @@ const BuyIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Buy';
     },
-    handle(handlerInput){
+    async handle(handlerInput){
         mainFuncs.buy(util.alexaId);
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak('Grazie mille per il tuo acquisto')
             .withShouldEndSession(false)
@@ -128,14 +134,15 @@ const AddToCartIntentHandler = { // TODO: ADD ALEXA INTENT
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'addToCart';
     },
-    handle(handlerInput){
+    async handle(handlerInput){
         const attributesManager = handlerInput.attributesManager;
         let sessionAttributes = attributesManager.getSessionAttributes();
-        var speechText = '';
+        var speechText = 'Articolo aggiunto al carrello';
         console.log(sessionAttributes);
         mainFuncs.addToCart(util.alexaId, sessionAttributes.article);
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
-        .speak('Grazie mille per il tuo acquisto')
+        .speak(speechText)
         .withShouldEndSession(false)
         .getResponse();
     }
@@ -146,9 +153,11 @@ const HideIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Hide';
     },
-    handle(handlerInput){
+    async handle(handlerInput){
+        var speechtext = 'Per riattivarmi, chiamami o premi il pulsante. Arrivederci';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
-            .speak('Per riattivarmi, chiamami o premi il pulsante. Arrivederci')
+            .speak(speechtext)
             .getResponse();
     }
 }
@@ -158,8 +167,10 @@ const SuggestIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Suggest';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+    async handle(handlerInput){
+        var speechText = '';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 }
 
@@ -168,8 +179,10 @@ const PriceIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Price';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+    async handle(handlerInput){
+        var speechText = '';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 }
 
@@ -178,8 +191,10 @@ const ChatIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Chat';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+    async handle(handlerInput){
+        var speechText = '';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 }
 
@@ -188,8 +203,10 @@ const StartIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Start';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+    async handle(handlerInput){
+        var speechText = '';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 }
 
@@ -235,6 +252,7 @@ const TutorialIntentHandler = {
         }
         var row = await dynamo.getRowById(util.AlexaId, 'step, stepCardinal');
         await socketHandler.sendMessageToClient(row, connectionId);
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder.speak(speechText).withShouldEndSession(false).getResponse();
     }
 }
