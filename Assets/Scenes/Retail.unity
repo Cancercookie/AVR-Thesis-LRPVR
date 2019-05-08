@@ -5687,6 +5687,46 @@ PrefabInstance:
       propertyPath: m_ReferencePixelsPerUnit
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 1844906699, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_TagString
+      value: Balloon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484264473, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.000015872454
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484264473, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -3.138047
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484264473, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.71999604
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484264473, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.49999994
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484264473, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484264473, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484264473, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484264473, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1484264473, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5000003
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
 --- !u!1001 &1400129993

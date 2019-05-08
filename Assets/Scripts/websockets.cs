@@ -11,16 +11,18 @@ public class websockets : MonoBehaviour
     private ClientWebSocket cws = null;
     private ArraySegment<byte> buf = new ArraySegment<byte>(new byte[1024]);
 
+    private string state = "idle";
     private string res = "";
     private GameObject[] spawners;
     private GameObject[] articles;
     private List<DBArticle> articleInfos = new List<DBArticle>();
-    
+    private AVRSays balloon;
     
     private void Awake()
     {
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         articles = GameObject.FindGameObjectsWithTag("Article");
+        balloon = GameObject.FindGameObjectWithTag("Balloon").GetComponent<AVRSays>();
         Connect();
     }
 
@@ -44,24 +46,17 @@ public class websockets : MonoBehaviour
         Debug.Log("Got: " + Encoding.UTF8.GetString(buf.Array, 0, r.Count));
         if (r.EndOfMessage)
         {
-            articleInfos = GenerateArticlesInfos();
-            foreach (GameObject article in articles)
+            Debug.Log(res);
+            if (state == "getArticles")
+                GenerateArticlesInfos(res);
+            else if (res.Substring(1, 9) == "_AVRSAYS:")
             {
-                Article articleInstance = article.GetComponent<Article>();
-                DBArticle aInfo = articleInfos.Find(a => a.articleID == articleInstance.articleID);
-                if (aInfo != null)
-                {
-                    articleInstance.articleName = aInfo.name;
-                    articleInstance.description = aInfo.description;
-                    articleInstance.price = aInfo.price;
-                }
+                balloon.gameObject.SetActive(true);
+                balloon.textToSpeech = res.Substring(1, res.Length - 2).Remove(0, 9);
             }
-            foreach (GameObject spawner in spawners)
-            {
-                ArticleSpawner s = spawner.GetComponent<ArticleSpawner>();
-                s.okToSpawn = true;
-            }
-        }
+            else
+                res = "";
+        }   
         WSReceiver();
     }
 
@@ -69,6 +64,7 @@ public class websockets : MonoBehaviour
     {
         ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: getArticles}"));
         await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
+        state = "getArticles";
     }
 
     public async void addToCart(string ArticleID)
@@ -84,17 +80,38 @@ public class websockets : MonoBehaviour
         await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
     }
 
-    private List<DBArticle> GenerateArticlesInfos()
+    private void GenerateArticlesInfos(String res)
     {
-        res = JsonHelper.fixJson(res);
-        List<DBArticle> json = new List<DBArticle>(JsonHelper.FromJson<DBArticle>(res));
-        return json;
+        var r = JsonHelper.fixJson(res);
+        List<DBArticle> articleInfos = new List<DBArticle>(JsonHelper.FromJson<DBArticle>(r));
+        foreach (GameObject article in articles)
+        {
+            Article articleInstance = article.GetComponent<Article>();
+            DBArticle aInfo = articleInfos.Find(a => a.articleID == articleInstance.articleID);
+            if (aInfo != null)
+            {
+                articleInstance.articleName = aInfo.name;
+                articleInstance.description = aInfo.description;
+                articleInstance.price = aInfo.price;
+            }
+        }
+        foreach (GameObject spawner in spawners)
+        {
+            ArticleSpawner s = spawner.GetComponent<ArticleSpawner>();
+            s.okToSpawn = true;
+        }
+        WSResetClientState();
+    }
+
+    private void WSResetClientState()
+    {
+        state = "idle";
+        res = "";
     }
 
     private async void OnApplicationQuit()
     {
-        ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: disconnect}"));
-        await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
+        await cws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Unity quit", CancellationToken.None);
     }
 }
 
