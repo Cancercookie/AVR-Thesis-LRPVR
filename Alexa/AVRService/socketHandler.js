@@ -1,4 +1,5 @@
 const util = require('util.js');
+const mainFuncs = require('main.js');
 const dynamo = require('dynamo.js')
 
 async function sendMessageToClient(data, connectionId) {
@@ -39,6 +40,12 @@ async function main(event, context) {
     return util.success;
 }
 
+async function getArticles(event, context) {
+	const articles = await dynamo.getArticles();
+	await sendMessageToClient(articles, event.requestContext.connectionId);
+    return util.success;
+}
+
 async function read(event, context, callback) {
 	const row = await dynamo.getRowById(util.AlexaId);
 	await sendMessageToClient(row, event.requestContext.connectionId);
@@ -52,9 +59,24 @@ async function write(event, context, callback) {
     return util.success;
 }
 
+async function buy(event, context, callback) {
+	const res = await mainFuncs.buy(util.AlexaId);
+    return util.success;
+}
+
+async function addToCart(event, context, callback) {
+	const body = JSON.parse(event.body);
+	console.log(body);
+	const res = await mainFuncs.addToCart(util.AlexaId, body.articleIDs);
+    return util.success;
+}
+
 module.exports = {
     sendMessageToClient,
   	connectionManager,
   	read,
-  	write
+  	write,
+  	buy,
+  	addToCart,
+  	getArticles
 };

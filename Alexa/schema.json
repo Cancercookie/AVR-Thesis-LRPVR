@@ -155,6 +155,19 @@
                         "Iniziamo il tuor",
                         "Iniziamo il tutorial"
                     ]
+                },
+                {
+                    "name": "addToCart",
+                    "slots": [
+                        {
+                            "name": "article",
+                            "type": "Article"
+                        }
+                    ],
+                    "samples": [
+                        "aggiungi {article}",
+                        "aggiungi {article} al carrello"
+                    ]
                 }
             ],
             "types": [

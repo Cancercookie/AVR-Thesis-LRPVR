@@ -5,8 +5,10 @@
 const Alexa = require('ask-sdk-core');
 const dynamo = require('dynamo.js');
 const util = require('util.js');
+const mainFuncs = require('main.js');
 const socketHandler = require('socketHandler.js');
 var connectionId = '';
+
 /*DEFAULT INTENT HANDLERS */
 
 const LaunchRequestHandler = {
@@ -24,9 +26,11 @@ const LaunchRequestHandler = {
             dynamo.putNewRow('disconnected');
             speechText += 'Avvia il programma nella realtà virtuale per procedere. Fammi sapere quando sei pronto.'; 
         }
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
@@ -35,8 +39,9 @@ const HelpIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
     },
-    handle(handlerInput) {
-        const speechText = 'Benvenuto, mi chiamo AVR. In cosa posso aiutarti?';
+    async handle(handlerInput) {
+        const speechText = 'In cosa posso aiutarti?';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
@@ -49,8 +54,9 @@ const CancelAndStopIntentHandler = {
             && (handlerInput.requestEnvelope.request.intent.name === 'AMAZON.CancelIntent'
                 || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const speechText = '<say-as interpret-as="interjection">vabbè</say-as>';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .getResponse();
@@ -60,9 +66,10 @@ const SessionEndedRequestHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
     },
-    handle(handlerInput) {
-        // Any cleanup logic goes here.
-        return handlerInput.responseBuilder.getResponse();
+    async handle(handlerInput) {
+        const speechText = 'Chiamami quando ne avrai bisogno';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 };
 
@@ -74,10 +81,11 @@ const IntentReflectorHandler = {
     canHandle(handlerInput) {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest';
     },
-    handle(handlerInput) {
+    async handle(handlerInput) {
         const intentName = handlerInput.requestEnvelope.request.intent.name;
-        const speechText = `You just triggered ${intentName}`;
+        const speechText = `Intento: ${intentName}`;
         console.log('Errore nell handler');
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
@@ -92,13 +100,14 @@ const ErrorHandler = {
     canHandle() {
         return true;
     },
-    handle(handlerInput, error) {
+    async handle(handlerInput, error) {
         console.log(`~~~~ Error handled: ${error.message}`);
         const speechText = `Scusa, non ho capito. Riprova.`;
-
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
@@ -110,8 +119,32 @@ const BuyIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Buy';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('Grazie mille per il tuo acquisto').getResponse();
+    async handle(handlerInput){
+        mainFuncs.buy(util.alexaId);
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder
+            .speak('Grazie mille per il tuo acquisto')
+            .withShouldEndSession(false)
+            .getResponse();
+    }
+}
+
+const AddToCartIntentHandler = { // TODO: ADD ALEXA INTENT
+    canHandle(handlerInput){
+        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
+            && handlerInput.requestEnvelope.request.intent.name === 'addToCart';
+    },
+    async handle(handlerInput){
+        const attributesManager = handlerInput.attributesManager;
+        let sessionAttributes = attributesManager.getSessionAttributes();
+        var speechText = 'Articolo aggiunto al carrello';
+        console.log(sessionAttributes);
+        mainFuncs.addToCart(util.alexaId, sessionAttributes.article);
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder
+        .speak(speechText)
+        .withShouldEndSession(false)
+        .getResponse();
     }
 }
 
@@ -120,8 +153,12 @@ const HideIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Hide';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+    async handle(handlerInput){
+        var speechtext = 'Per riattivarmi, chiamami o premi il pulsante. Arrivederci';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder
+            .speak(speechtext)
+            .getResponse();
     }
 }
 
@@ -130,8 +167,10 @@ const SuggestIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Suggest';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+    async handle(handlerInput){
+        var speechText = '';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 }
 
@@ -140,8 +179,10 @@ const PriceIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Price';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+    async handle(handlerInput){
+        var speechText = '';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 }
 
@@ -150,8 +191,10 @@ const ChatIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Chat';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+    async handle(handlerInput){
+        var speechText = '';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 }
 
@@ -160,8 +203,10 @@ const StartIntentHandler = {
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Start';
     },
-    handle(handlerInput){
-        return handlerInput.responseBuilder.speak('').getResponse();
+    async handle(handlerInput){
+        var speechText = '';
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 }
 
@@ -192,38 +237,32 @@ const TutorialIntentHandler = {
         // se AVR non riceve lo step ricominciamo dall'ultimo step eseguito (can be improved)
         if (typeof sessionAttributes.step === 'undefined' && typeof sessionAttributes.stepCardinal === 'undefined'){
             sessionAttributes = await attributesManager.getRowById(util.AlexaId) || {};
-            proceeded = false;
+            // proceeded = false;
         }
-        else if (typeof sessionAttributes.step === 'undefined'){
-            sessionAttributes.step = sessionAttributes.stepCardinal.slice(0,-1); 
-        }
-        else if (typeof sessionAttributes.stepCardinal === 'undefined'){
-            sessionAttributes.stepCardinal = sessionAttributes.step + 'o';
-        }
-        if(sessionAttributes.step === '1' || sessionAttributes.stepCardinal === '1o'){
+        else if (typeof sessionAttributes.step === 'undefined'){ sessionAttributes.step = sessionAttributes.stepCardinal.slice(0,-1); }
+        else if (typeof sessionAttributes.stepCardinal === 'undefined'){ sessionAttributes.stepCardinal = sessionAttributes.step + 'o'; }
+        if(sessionAttributes.step === '1'){
             speechText += '<emphasis level="reduced">Iniziamo con le presentazioni: mi chiamo <lang xml:lang="en-US">Assistant in Virtual Retailing</lang>, per gli amici AVR. E tu come ti chiami?</emphasis>';
         }else{
-            speechText += '<emphasis level="reduced">Ok, iniziamo!</emphasis><say-as interpret-as="interjection">yippii</say-as>';
+            speechText += 'Male male';
         }
         if (mustWrite) {
             const objToW = { step: sessionAttributes.step, stepCardinal: sessionAttributes.stepCardinal };
             await dynamo.writeRow(util.AlexaId, objToW);
         }
         var row = await dynamo.getRowById(util.AlexaId, 'step, stepCardinal');
-
         await socketHandler.sendMessageToClient(row, connectionId);
-        return handlerInput.responseBuilder.speak(speechText).getResponse();
+        await socketHandler.sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+        return handlerInput.responseBuilder.speak(speechText).withShouldEndSession(false).getResponse();
     }
 }
 
-/* LAMBDA SETUP */
-// This handler acts as the entry point for your skill, routing all request and response
-// payloads to the handlers above. Make sure any new handlers or interceptors you've
-// defined are included below. The order matters - they're processed top to bottom.
+/*HANDLERS */
 
 exports.handler = Alexa.SkillBuilders.custom()
     .addRequestHandlers(
         BuyIntentHandler,
+        AddToCartIntentHandler,
         ChatIntentHandler,
         PriceIntentHandler,
         SuggestIntentHandler,

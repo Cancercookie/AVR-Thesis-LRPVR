@@ -7,6 +7,9 @@ TagManager:
   - Title
   - Price
   - Cart Count
+  - Article
+  - Spawner
+  - Balloon
   layers:
   - Default
   - TransparentFX
