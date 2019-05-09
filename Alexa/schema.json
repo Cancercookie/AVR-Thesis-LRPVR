@@ -1,0 +1,549 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "avuerre",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": [
+                        "no",
+                        "Annulla"
+                    ]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "Cosa sei in grado di fare",
+                        "Cosa fai",
+                        "Cosa puoi fare"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "no",
+                        "Stop",
+                        "Basta",
+                        "Fine",
+                        "Fermati"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "Buy",
+                    "slots": [],
+                    "samples": [
+                        "Voglio comprare",
+                        "Paga",
+                        "Acquista tutto",
+                        "Pago",
+                        "Voglio pagare",
+                        "Concludi acquisto",
+                        "Compra tutto",
+                        "Facciamo checkout"
+                    ]
+                },
+                {
+                    "name": "Hide",
+                    "slots": [],
+                    "samples": [
+                        "ciao ciao",
+                        "Vai via",
+                        "Nasconditi",
+                        "Vattene"
+                    ]
+                },
+                {
+                    "name": "Suggest",
+                    "slots": [
+                        {
+                            "name": "color",
+                            "type": "AMAZON.Color"
+                        },
+                        {
+                            "name": "preference",
+                            "type": "UserPref"
+                        },
+                        {
+                            "name": "clothing",
+                            "type": "Clothing"
+                        },
+                        {
+                            "name": "article",
+                            "type": "Article"
+                        }
+                    ],
+                    "samples": [
+                        "Consigliami un articolo",
+                        "Consigliami un articolo {preference}",
+                        "Consigliami {clothing}",
+                        "Consigliami qualcosa di {color}",
+                        "Consigliami un {clothing}  {color}",
+                        "Cosa potrebbe interessarmi",
+                        "Dammi qualche idea",
+                        "Consigli",
+                        "Cosa consigli",
+                        "Cosa mi consigli"
+                    ]
+                },
+                {
+                    "name": "Price",
+                    "slots": [
+                        {
+                            "name": "article",
+                            "type": "Article"
+                        }
+                    ],
+                    "samples": [
+                        "Prezzo {article}",
+                        "Dimmi il prezzo di {article}",
+                        "Prezzo di {article}",
+                        "Costo {article}",
+                        "Quanto costa {article}",
+                        "Dimmi il costo di {article}",
+                        "Quanto costa questo {article}"
+                    ]
+                },
+                {
+                    "name": "Chat",
+                    "slots": [],
+                    "samples": [
+                        "Ciao",
+                        "Come stai",
+                        "Come va",
+                        "Raccontami qualcosa",
+                        "Che mi dici"
+                    ]
+                },
+                {
+                    "name": "Start",
+                    "slots": [
+                        {
+                            "name": "name",
+                            "type": "AMAZON.FirstName"
+                        }
+                    ],
+                    "samples": [
+                        "Inizia",
+                        "Iniziamo"
+                    ]
+                },
+                {
+                    "name": "Tutorial",
+                    "slots": [
+                        {
+                            "name": "step",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "stepCardinal",
+                            "type": "Cardinal"
+                        }
+                    ],
+                    "samples": [
+                        "iniziamo il tour dallo step {step}",
+                        "inizia tour dal {stepCardinal} step",
+                        "Inizia il tour dallo step {step}",
+                        "Inizia tour",
+                        "Via al tour",
+                        "Via al tutorial",
+                        "Inizia il tutorial",
+                        "Inizia il tuor ",
+                        "Iniziamo il tuor",
+                        "Iniziamo il tutorial"
+                    ]
+                },
+                {
+                    "name": "addToCart",
+                    "slots": [
+                        {
+                            "name": "article",
+                            "type": "Article"
+                        }
+                    ],
+                    "samples": [
+                        "aggiungi {article}",
+                        "aggiungi {article} al carrello"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "Article",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "fagioli"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "cereali"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "chips",
+                                "synonyms": [
+                                    "patatine"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "tonno",
+                                "synonyms": [
+                                    "tuna"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "pasta",
+                                "synonyms": [
+                                    "farfalle",
+                                    "pennette"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "UserPref",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Etico",
+                                "synonyms": [
+                                    "child labour free"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Anallergico",
+                                "synonyms": [
+                                    "senza allergeni"
+                                ]
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "Bio",
+                                "synonyms": [
+                                    "biologico"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Clothing",
+                    "values": [
+                        {
+                            "id": "eyewear",
+                            "name": {
+                                "value": "occhiali"
+                            }
+                        },
+                        {
+                            "id": "dress",
+                            "name": {
+                                "value": "vestito"
+                            }
+                        },
+                        {
+                            "id": "shirt",
+                            "name": {
+                                "value": "maglietta"
+                            }
+                        },
+                        {
+                            "id": "pants",
+                            "name": {
+                                "value": "pantaloni"
+                            }
+                        },
+                        {
+                            "id": "skirt",
+                            "name": {
+                                "value": "gonna"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Cardinal",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "settimo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "sesto"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "quinto"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "quarto"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "terzo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "secondo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "primo"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "Buy",
+                    "confirmationRequired": true,
+                    "prompts": {
+                        "confirmation": "Confirm.Intent.1511175991742"
+                    },
+                    "slots": []
+                },
+                {
+                    "name": "Price",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "article",
+                            "type": "Article",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.257064211855.695765511162"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Suggest",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "color",
+                            "type": "AMAZON.Color",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "preference",
+                            "type": "UserPref",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "clothing",
+                            "type": "Clothing",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "article",
+                            "type": "Article",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                },
+                {
+                    "name": "Tutorial",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "step",
+                            "type": "AMAZON.NUMBER",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {},
+                            "validations": [
+                                {
+                                    "type": "isLessThan",
+                                    "prompt": "Slot.Validation.1342369179269.948687491295.186105350961",
+                                    "value": "10"
+                                },
+                                {
+                                    "type": "isGreaterThan",
+                                    "prompt": "Slot.Validation.1342369179269.948687491295.1416599855013",
+                                    "value": "0"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "stepCardinal",
+                            "type": "Cardinal",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "ALWAYS"
+        },
+        "prompts": [
+            {
+                "id": "Confirm.Intent.1511175991742",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Vuoi davvero procedere?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Hai concluso le tue scelte?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Vuoi confemare?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.257064211855.1071659852119",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Di cosa vuoi sapere il costo"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Indicami di quale articolo vuoi sapere il costo"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.257064211855.1071659852119.594334246082",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Mi spiace ma non ho questo articolo. Prova a chiedermi di un altro prodotto"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Questo articolo non è presente nel catalogo. Prova a ripetere."
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.257064211855.695765511162",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Quale articolo ti interessa?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "A quale articolo ti riferisci?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Di quale articolo vuoi sapere il prezzo?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Di cosa vuoi sapere il prezzo?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Di cosa parli?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Di che articolo stai parlando?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Di quale articolo stai parlando?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Intent.1342369179269",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Vuoi riprendere da dove eravamo l'ultima volta?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Vuoi continuare da dove eravamo rimasti?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.1342369179269.948687491295",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Da quale step vuoi ripartire?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Da quale step vuoi partire?"
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.1342369179269.948687491295.186105350961",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Purtroppo il passo selezionato non è disponibile, per favore, riprova."
+                    }
+                ]
+            },
+            {
+                "id": "Slot.Validation.1342369179269.948687491295.1416599855013",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Purtroppo il passo selezionato non è disponibile, per favore, riprova."
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.382169860740.703660044954",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "allora?"
+                    }
+                ]
+            }
+        ]
+    }
+}

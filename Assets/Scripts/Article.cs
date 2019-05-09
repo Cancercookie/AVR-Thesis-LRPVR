@@ -1,24 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Article : MonoBehaviour
 {
-    public string name;
+    // Common
+    [SerializeField]
+    public string articleID;
+    public string articleName;
     public string description;
+    public double price;
+    public float weight;
 
-    public float price;
-    public string[] characteristics; 
+    // Food
+    public string[] allergens;
+    public string[] characteristics;
 
-    // Start is called before the first frame update
-    void Start()
+    // Clothing
+    public string brand;
+    // - Instance
+    public enum size {XS, S, M, L, XL};
+    public size Size;
+    public string color;
+    private ArticleUI articleUI;
+
+    void Awake()
     {
-        
+        getInfoFromDB();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+
+    }
+
+    void spawnUI()
+    {
+       // articleUI.transform.localPosition 
+    }
+
+    void getInfoFromDB()
+    {
+
     }
 }
