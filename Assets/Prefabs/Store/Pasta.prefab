@@ -220,13 +220,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 393cc5df5dcaee741b71166d5f299de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  articleID: 
-  articleName: 
-  description: 
-  price: 0
-  weight: 0
+  articleID: pasta
+  articleName: pasta
+  description: basta
+  price: 1
+  weight: 1
   allergens: []
   characteristics: []
-  brand: 
+  brand: sda
   Size: 0
-  color: 
+  color: blue
