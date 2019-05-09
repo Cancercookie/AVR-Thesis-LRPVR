@@ -15,10 +15,12 @@ public class Crossair : BaseInputModule
     private cartHandler cart;
     private BuyHandler buyHandler;
     private Image dot;
+    private websockets WS;
 
     protected override void Awake()
     {
         base.Awake();
+        WS = GameObject.Find("Store").GetComponent<websockets>();
         articleUI = GameObject.Find("ArticleUI").GetComponent<ArticleUI>();
         cart = GameObject.Find("ArticleUI/Canvas/AddToCartBtn/AddToCart").GetComponent<cartHandler>();
         buyHandler = GameObject.Find("Store/Checkout/CheckoutCanvas/Buy").GetComponent<BuyHandler>();
@@ -49,9 +51,9 @@ public class Crossair : BaseInputModule
 
     private void ProcessPress(PointerEventData data)
     {
-        Debug.Log(m_CurrentGameObject.name);
-        Image buy = m_CurrentGameObject.GetComponentInChildren<Image>();
-        if (buy != null && cart.qtInCart > 0)
+        Debug.Log("PRESS: " + m_CurrentGameObject.name);
+        string buy = m_CurrentGameObject.name;
+        if (buy == "Buy" && WS.qtInCart > 0)
         {
             buyHandler.buyAll();
         }
@@ -59,7 +61,7 @@ public class Crossair : BaseInputModule
 
     private void ProcessRelease(PointerEventData data)
     {
-        Debug.Log(m_CurrentGameObject.name);
+        Debug.Log("RELEASE: " + m_CurrentGameObject.name);
         if (articleUI.isActiveAndOpened())
         {
             cartHandler cH = m_CurrentGameObject.GetComponent<cartHandler>();
@@ -74,11 +76,12 @@ public class Crossair : BaseInputModule
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5f))
         {
             var article = hit.transform.GetComponent<Article>();
+            var hitName = hit.transform.name;
             if (hit.collider != null)
                 dot.transform.position = hit.point;
             else
                 dot.transform.position = transform.position + (transform.position * 5f);
-            if (article != null)
+            if (article != null || hitName == "Buy")
                 dot.color = Color.green;
             else
                 dot.color = Color.red;

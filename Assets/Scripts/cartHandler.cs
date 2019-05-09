@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class cartHandler : MonoBehaviour
 {
-    public int qtInCart = 0;
     public List<Article> articlesInCart;
-
     private websockets WS; 
     private ArticleUI articleUI;
 
@@ -14,13 +13,20 @@ public class cartHandler : MonoBehaviour
     {
         WS = GameObject.Find("Store").GetComponent<websockets>();
         articleUI = GameObject.Find("ArticleUI").GetComponent<ArticleUI>();
+        Debug.Log(WS);
+        Debug.Log(articleUI);
+    }
+
+    private void Update()
+    {
+        articleUI = GameObject.Find("ArticleUI").GetComponent<ArticleUI>();
     }
 
     public void addToCart()
     {
         WS.addToCart(articleUI.article.articleID);
-        articlesInCart.Add(articleUI.article);
-        qtInCart += 1;
+        articlesInCart.Add(articleUI.article); // mettere in WS
+        WS.qtInCart += 1;
         articleUI.close();
     }
 }

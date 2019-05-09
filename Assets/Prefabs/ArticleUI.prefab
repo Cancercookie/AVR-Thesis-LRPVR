@@ -1572,7 +1572,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: COMPRA
+  m_Text: AGGIUNGI
 --- !u!114 &3818250540204210786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1600,7 +1600,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059d436fc36a6cb49822211c9b1c7612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  qtInCart: 0
   articlesInCart: []
 --- !u!1 &3818250540305200740
 GameObject:
@@ -1760,7 +1759,6 @@ GameObject:
   - component: {fileID: 3818250540443997063}
   - component: {fileID: 3818250540443997062}
   - component: {fileID: 3818250540443997061}
-  - component: {fileID: 3818250540443997060}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1859,32 +1857,3 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3818250540443997066}
   m_CullTransparentMesh: 0
---- !u!114 &3818250540443997060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3818250540443997066}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.09718762, g: 0.52394605, b: 0.5283019, a: 0.94509804}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0

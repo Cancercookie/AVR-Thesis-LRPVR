@@ -17,9 +17,11 @@ public class websockets : MonoBehaviour
     private GameObject[] articles;
     private List<DBArticle> articleInfos = new List<DBArticle>();
     private AVRSays balloon;
+    public int qtInCart;
     
     private void Awake()
     {
+        qtInCart = 0;
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         articles = GameObject.FindGameObjectsWithTag("Article");
         balloon = GameObject.FindGameObjectWithTag("Balloon").GetComponent<AVRSays>();
@@ -53,6 +55,7 @@ public class websockets : MonoBehaviour
             {
                 balloon.gameObject.SetActive(true);
                 balloon.textToSpeech = res.Substring(1, res.Length - 2).Remove(0, 9);
+                res = "";
             }
             else
                 res = "";

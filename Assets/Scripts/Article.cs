@@ -21,24 +21,4 @@ public class Article : MonoBehaviour
     public size Size;
     public string color;
     private ArticleUI articleUI;
-
-    void Awake()
-    {
-        getInfoFromDB();
-    }
-
-    void Start()
-    {
-
-    }
-
-    void spawnUI()
-    {
-       // articleUI.transform.localPosition 
-    }
-
-    void getInfoFromDB()
-    {
-
-    }
 }

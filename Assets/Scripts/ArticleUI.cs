@@ -19,17 +19,19 @@ public class ArticleUI : MonoBehaviour
     private ScrollRect infoScroll;
     private Image crossair;
     private Text cartCount;
+    private websockets WS;
 
     private void Awake()
     {
         crossair = UI_Camera.transform.GetComponentInChildren<Image>();
         interactUI = SteamVR_Actions._default.InteractUI;
         cart = gameObject.transform.Find("Canvas/AddToCartBtn/AddToCart").GetComponent<cartHandler>();
+        WS = GameObject.Find("Store").GetComponent<websockets>();
     }
 
     void Start()
     {
-        cartCount = AVR_Canvas.transform.Find("Cart Count").GetComponent<Text>();
+        cartCount = GameObject.FindGameObjectWithTag("Cart Count").GetComponent<Text>();
         canvas = this.GetComponentInChildren<Canvas>();
         infoScroll = AVR_Canvas.GetComponentInChildren<ScrollRect>();
         infoScroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
@@ -43,14 +45,13 @@ public class ArticleUI : MonoBehaviour
         select();
         if (visible)
         {
-            cartCount.text = cart.qtInCart.ToString();
             transform.LookAt(player.transform);
         }
         else
         {
             transform.position = Vector3.zero;
         }
-        cartCount.text = cart.qtInCart.ToString();
+        cartCount.text = WS.qtInCart.ToString();
     }
 
     public void open()
@@ -78,13 +79,14 @@ public class ArticleUI : MonoBehaviour
     private void select()
     {
         RaycastHit hit;
-        RaycastHit hitUI;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5f)) {
-            article = hit.transform.GetComponent<Article>();
             if (interactUI.GetStateDown(SteamVR_Input_Sources.Any))
             {
-                if(article != null)
+                if(hit.transform.GetComponent<Article>() != null)
+                {
+                    article = hit.transform.GetComponent<Article>();
                     open();
+                } 
                 else
                     close();
             }   

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6209900923716471443}
   - component: {fileID: 6209900923716471444}
   - component: {fileID: 6209900923716471442}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Buy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 6209900925261395222}
   - component: {fileID: 6209900925261395223}
   - component: {fileID: 6209900925261395224}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CheckoutCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,21 +287,17 @@ PrefabInstance:
       value: 2.4015236
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 6aaa8741e1d4f46d8a73257685372428, type: 3}
-      propertyPath: m_CastShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2300000, guid: 6aaa8741e1d4f46d8a73257685372428, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 0128f78d2dcb0eb4096946d00dadff2a, type: 2}
     - target: {fileID: 2300000, guid: 6aaa8741e1d4f46d8a73257685372428, type: 3}
-      propertyPath: m_Materials.Array.data[6]
-      value: 
-      objectReference: {fileID: 2100000, guid: 718b1695a40c141ffa215a7fa2f15ac7, type: 2}
-    - target: {fileID: 2300000, guid: 6aaa8741e1d4f46d8a73257685372428, type: 3}
       propertyPath: m_Materials.Array.data[5]
       value: 
       objectReference: {fileID: 2100000, guid: 4aefe6a725e4f43148f85452d39da214, type: 2}
+    - target: {fileID: 2300000, guid: 6aaa8741e1d4f46d8a73257685372428, type: 3}
+      propertyPath: m_Materials.Array.data[6]
+      value: 
+      objectReference: {fileID: 2100000, guid: 718b1695a40c141ffa215a7fa2f15ac7, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6aaa8741e1d4f46d8a73257685372428, type: 3}
 --- !u!4 &6209900925098838623 stripped

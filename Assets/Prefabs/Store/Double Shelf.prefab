@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 781425340683576490}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 183.5, y: 0.25, z: -180.375}
-  m_LocalScale: {x: 2.6310942, y: 2.6310942, z: 2.6310942}
+  m_LocalScale: {x: 1.5171084, y: 1.5171084, z: 1.5171084}
   m_Children:
   - {fileID: 1605845646841623823}
   - {fileID: 3936858981064874233}
@@ -124,13 +124,13 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  cloneNumber: 0a0000000a000000070000000700000007000000
+  cloneNumber: 0a0000000c000000070000000700000007000000
   gap:
-  - 0.5
-  - 0.5
-  - -0.5
-  - -0.5
-  - -0.5
+  - 0.3
+  - 0.25
+  - 0.25
+  - 0.25
+  - 0.25
 --- !u!1001 &51150853795868571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -202,6 +202,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3436200885841573371, guid: b2dca4349cea60041acbf256742fa7d7,
+        type: 3}
+      propertyPath: articleID
+      value: chips
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b2dca4349cea60041acbf256742fa7d7, type: 3}
@@ -382,13 +387,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 681719792767082901, guid: 30a57c4db4942454d9066fb9c16a7a5d,
         type: 3}
+      propertyPath: articleID
+      value: cereal
+      objectReference: {fileID: 0}
+    - target: {fileID: 681719792767082901, guid: 30a57c4db4942454d9066fb9c16a7a5d,
+        type: 3}
       propertyPath: description
-      value: 'Buoni '
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 681719792767082901, guid: 30a57c4db4942454d9066fb9c16a7a5d,
         type: 3}
       propertyPath: price
-      value: 2.5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30a57c4db4942454d9066fb9c16a7a5d, type: 3}
@@ -475,6 +485,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2041166362100001924, guid: 665e3bad90958e842bc2cbcf1d682db9,
+        type: 3}
+      propertyPath: articleID
+      value: tuna
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 665e3bad90958e842bc2cbcf1d682db9, type: 3}
@@ -564,8 +579,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
         type: 3}
-      propertyPath: articleID
-      value: pasta
+      propertyPath: articleName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
+        type: 3}
+      propertyPath: description
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
+        type: 3}
+      propertyPath: price
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
+        type: 3}
+      propertyPath: weight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
+        type: 3}
+      propertyPath: brand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490554599974438536, guid: 2d8ddd446516a7e4999edfba717edda1,
+        type: 3}
+      propertyPath: color
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d8ddd446516a7e4999edfba717edda1, type: 3}
