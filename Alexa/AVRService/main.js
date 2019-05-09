@@ -1,7 +1,6 @@
 const Alexa = require('ask-sdk-core');
 const dynamo = require('dynamo.js');
 const util = require('util.js');
-const socketHandler = require('socketHandler.js');
 var connectionId = '';
 
 async function addToCart(alexaId = util.AlexaId, articles) {
@@ -20,6 +19,29 @@ async function buy(alexaId = util.AlexaId) {
 	}
 }
 
+async function intoCart(alexaId = util.AlexaId){
+	var cart = await getCart(alexaId);
+	console.log('INTOCART:' + cart);
+	var articles = [];
+	if (cart.length > 0){
+		cart.forEach(a => {
+			var pos = -1;
+			articles.forEach((b, idx) => a === b.articleID && pos === -1 ? pos = idx : pos = -1);
+			if (pos === -1){
+				articles.push({
+					articleID: a,
+					qta: 1
+				});
+			}
+			else{
+				articles[pos].qta += 1;
+			} 
+		});
+	}
+	console.log(articles);
+	return articles;
+}
+
 async function getCart(alexaId = util.AlexaId) {
 	var r = await dynamo.getRowById(alexaId, 'cart, unityUserId', true);
 	connectionId = r.unityUserId
@@ -29,5 +51,6 @@ async function getCart(alexaId = util.AlexaId) {
 
 module.exports = {
     buy,
-    addToCart
+    addToCart,
+    intoCart
 };

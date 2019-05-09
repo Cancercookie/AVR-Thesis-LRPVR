@@ -1,6 +1,6 @@
 const util = require('util.js');
 const mainFuncs = require('main.js');
-const dynamo = require('dynamo.js')
+const dynamo = require('dynamo.js');
 
 async function sendMessageToClient(data, connectionId) {
 	if(await dynamo.isClientConnected(util.AlexaId)) {
@@ -23,12 +23,17 @@ async function sendMessageToClient(data, connectionId) {
 	}
 }
 
+async function AVRSays(speechText, connectionId) {
+	await sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+}
+
 async function connectionManager(event, context) {
 	const eventType = event.requestContext.eventType;
 	if (eventType === 'CONNECT'){
 		await dynamo.putNewRow(event.requestContext.connectionId);
 	}else if (eventType === 'DISCONNECT') {
 		await dynamo.updateUnityId([], 'disconnected');
+		await dynamo.writeRow(util.AlexaId, {cart: []}, true);
 	}else {
 		console.log('dunno');
 		return
@@ -61,6 +66,8 @@ async function write(event, context, callback) {
 
 async function buy(event, context, callback) {
 	const res = await mainFuncs.buy(util.AlexaId);
+	var speechText = 'Grazie mille per l\'acquisto';
+	await AVRSays(speechText, event.requestContext.connectionId);
     return util.success;
 }
 
@@ -68,6 +75,14 @@ async function addToCart(event, context, callback) {
 	const body = JSON.parse(event.body);
 	console.log(body);
 	const res = await mainFuncs.addToCart(util.AlexaId, body.articleIDs);
+	var speechText = 'Nel tuo carrello sono ora presenti: ';
+	console.log(res);
+	res.forEach((art, idx) => {
+            speechText += art.qta + ' ' + art.name;
+            if(idx < articles.length - 1) speechText += ', ';
+            else speechText += '.';
+        });
+	await AVRSays(speechText, event.requestContext.connectionId);
     return util.success;
 }
 
@@ -78,5 +93,6 @@ module.exports = {
   	write,
   	buy,
   	addToCart,
-  	getArticles
+  	getArticles,
+  	AVRSays
 };
