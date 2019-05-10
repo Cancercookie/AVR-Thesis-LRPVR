@@ -5,7 +5,7 @@ using Valve.VR;
 public class ArticleUI : MonoBehaviour
 {
     public Article article;
-    private GameObject player;
+    private Camera player;
     private cartHandler cart;
 
     private bool visible = false;
@@ -35,7 +35,7 @@ public class ArticleUI : MonoBehaviour
         canvas = this.GetComponentInChildren<Canvas>();
         infoScroll = AVR_Canvas.GetComponentInChildren<ScrollRect>();
         infoScroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.AutoHide;
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = Camera.main;
     }
 
     void Update()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MeshFormatVersion: 0
+  m_MeshFormatVersion: 1
   m_Faces: []
   m_SharedVertices: []
   m_SharedTextures: []
@@ -40,15 +40,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
-        type: 3}
-      propertyPath: m_Name
-      value: penguin
-      objectReference: {fileID: 0}
     - target: {fileID: -271644386298376188, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
+        type: 3}
+      propertyPath: m_Name
+      value: penguin Variant
       objectReference: {fileID: 0}
     - target: {fileID: -6610092859229988773, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}
@@ -175,6 +175,21 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 07bcd4e0597eb0648b7a45624f2e0594, type: 2}
+    - target: {fileID: -584738095072847251, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -584738095072847251, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -584738095072847251, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a29b4a447db0c0f438dd1fc8c6e74cbc, type: 3}
 --- !u!1 &3623414122838084725 stripped
