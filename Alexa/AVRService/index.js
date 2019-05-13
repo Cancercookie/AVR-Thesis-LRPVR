@@ -16,7 +16,7 @@ const LaunchRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
     async handle(handlerInput) {
-        var speechText = 'Benvenuto, mi chiamo AVR, il tuo <lang xml:lang="en-US">Personal Shopping Assistant</lang>. ';
+        var speechText = 'Ciao, sono il tuo personal shopping assistant';
         if (await dynamo.isClientConnected(util.AlexaId)) { 
             connectionId = await dynamo.getClientId(util.AlexaId);
             await socketHandler.sendMessageToClient('AVR Skill Inititated', connectionId);
@@ -26,6 +26,7 @@ const LaunchRequestHandler = {
             dynamo.putNewRow('disconnected');
             speechText += 'Avvia il programma nella realtà virtuale per procedere. Fammi sapere quando sei pronto.'; 
         }
+        await socketHandler.AVRSays('_SESSION: STARTED', connectionId);
         await socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
@@ -68,8 +69,8 @@ const SessionEndedRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
     },
     async handle(handlerInput) {
-        const speechText = 'Chiamami quando ne avrai bisogno';
-        return handlerInput.responseBuilder.speak(speechText).getResponse();
+        await socketHandler.AVRSays('_SESSION: ENDED', connectionId); 
+        return handlerInput.responseBuilder.getResponse();
     }
 };
 
