@@ -17,7 +17,9 @@ public class websockets : MonoBehaviour
     private GameObject[] articles;
     private List<DBArticle> articleInfos = new List<DBArticle>();
     private AVRSays balloon;
+    private GameObject happyFace;
     public int qtInCart;
+    public string hintState;
     
     private void Awake()
     {
@@ -25,6 +27,8 @@ public class websockets : MonoBehaviour
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         articles = GameObject.FindGameObjectsWithTag("Article");
         balloon = GameObject.FindGameObjectWithTag("Balloon").GetComponent<AVRSays>();
+        happyFace = GameObject.FindGameObjectWithTag("HappyFace");
+        happyFace.SetActive(false);
         Connect();
     }
 
@@ -53,8 +57,14 @@ public class websockets : MonoBehaviour
                 GenerateArticlesInfos(res);
             else if (res.Substring(1, 9) == "_AVRSAYS:")
             {
-                balloon.gameObject.SetActive(true);
+                happyFace.SetActive(true);
                 balloon.textToSpeech = res.Substring(1, res.Length - 2).Remove(0, 9);
+                res = "";
+            }
+            else if (res.Substring(1, 9) == "_SESSION:")
+            {
+                var sesh = res.Substring(1, res.Length - 2).Remove(0, 9);
+                HideFace(sesh);
                 res = "";
             }
             else
@@ -110,6 +120,15 @@ public class websockets : MonoBehaviour
     {
         state = "idle";
         res = "";
+    }
+
+    private void HideFace(string sesh)
+    {
+        if (sesh == "STARTED")
+            happyFace.SetActive(true);
+        else if(sesh == "ENDED")
+            happyFace.SetActive(false);
+        hintState = sesh;
     }
 
     private async void OnApplicationQuit()

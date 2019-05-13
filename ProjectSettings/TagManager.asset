@@ -10,6 +10,7 @@ TagManager:
   - Article
   - Spawner
   - Balloon
+  - HappyFace
   layers:
   - Default
   - TransparentFX
