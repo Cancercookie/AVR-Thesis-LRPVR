@@ -15,11 +15,11 @@ public class AVRSays : MonoBehaviour
         happyFace = GameObject.FindGameObjectWithTag("HappyFace");
         GameObject.Find("Store").GetComponent<websockets>();
         balloonTxt = gameObject.GetComponentInChildren<Text>();
+        gameObject.SetActive(false);
     }
 
     private void Update()
     {
-        gameObject.SetActive(happyFace.activeSelf);
         balloonTxt.text = textToSpeech;
         gameObject.SetActive(textToSpeech != "");
     }
