@@ -24,7 +24,11 @@ async function sendMessageToClient(data, connectionId) {
 }
 
 async function AVRSays(speechText, connectionId) {
-	await sendMessageToClient('_AVRSAYS:' + speechText, connectionId);
+	if(speechText.charAt(0) === '_'){
+		await sendMessageToClient(speechText, connectionId);
+	}else{
+		await sendMessageToClient('_AVRSAYS:' + speechText, connectionId);	
+	}
 }
 
 async function connectionManager(event, context) {

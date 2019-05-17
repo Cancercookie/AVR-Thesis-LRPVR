@@ -16,7 +16,7 @@ const LaunchRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'LaunchRequest';
     },
     async handle(handlerInput) {
-        var speechText = 'Ciao, sono il tuo personal shopping assistant';
+        var speechText = 'Ciao, sono il tuo personal shopping assistant. ';
         if (await dynamo.isClientConnected(util.AlexaId)) { 
             connectionId = await dynamo.getClientId(util.AlexaId);
             await socketHandler.sendMessageToClient('AVR Skill Inititated', connectionId);
@@ -26,7 +26,7 @@ const LaunchRequestHandler = {
             dynamo.putNewRow('disconnected');
             speechText += 'Avvia il programma nella realtà virtuale per procedere. Fammi sapere quando sei pronto.'; 
         }
-        await socketHandler.AVRSays('_SESSION: STARTED', connectionId);
+        await socketHandler.AVRSays('_SESSION:STARTED', connectionId);
         await socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
@@ -58,6 +58,7 @@ const CancelAndStopIntentHandler = {
     },
     async handle(handlerInput) {
         const speechText = '<say-as interpret-as="interjection">vabbè</say-as>';
+        await socketHandler.AVRSays('_SESSION:ENDED', connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .getResponse();
@@ -69,7 +70,7 @@ const SessionEndedRequestHandler = {
         return handlerInput.requestEnvelope.request.type === 'SessionEndedRequest';
     },
     async handle(handlerInput) {
-        await socketHandler.AVRSays('_SESSION: ENDED', connectionId); 
+        await socketHandler.AVRSays('_SESSION:ENDED', connectionId); 
         return handlerInput.responseBuilder.getResponse();
     }
 };
@@ -88,7 +89,6 @@ const IntentReflectorHandler = {
         console.log('Errore nell handler');
         return handlerInput.responseBuilder
             .speak(speechText)
-            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
             .getResponse();
     }
 };
