@@ -11,6 +11,7 @@ TagManager:
   - Spawner
   - Balloon
   - HappyFace
+  - Fader
   layers:
   - Default
   - TransparentFX

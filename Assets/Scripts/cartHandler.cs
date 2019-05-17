@@ -13,8 +13,6 @@ public class cartHandler : MonoBehaviour
     {
         WS = GameObject.Find("Store").GetComponent<websockets>();
         articleUI = GameObject.Find("ArticleUI").GetComponent<ArticleUI>();
-        Debug.Log(WS);
-        Debug.Log(articleUI);
     }
 
     private void Update()

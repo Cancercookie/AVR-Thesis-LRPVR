@@ -1853,6 +1853,7 @@ GameObject:
   - component: {fileID: 1135732622}
   - component: {fileID: 1135732620}
   - component: {fileID: 1135732617}
+  - component: {fileID: 905107672}
   m_Layer: 5
   m_Name: Happy
   m_TagString: HappyFace
@@ -1868,7 +1869,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1135732615}
   m_LocalRotation: {x: 0.09942132, y: -0.3480646, z: 0.0007805899, w: -0.93218344}
-  m_LocalPosition: {x: 0.505, y: 0.375, z: 1.487}
+  m_LocalPosition: {x: 0.594, y: 0.356, z: 1.357}
   m_LocalScale: {x: 0.22926135, y: 0.22926071, z: 0.22926134}
   m_Children:
   - {fileID: 492130845}
@@ -2038,6 +2039,18 @@ MonoBehaviour:
       values: 000001000000
     previewEnabled: 1
   scale: 1
+--- !u!225 &905107672
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1135732615}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1611421009
 GameObject:
   m_ObjectHideFlags: 0
@@ -2411,6 +2424,7 @@ GameObject:
   - component: {fileID: 1683164358419231211}
   - component: {fileID: 882550782188313232}
   - component: {fileID: 7343595691111900768}
+  - component: {fileID: 22997393}
   m_Layer: 5
   m_Name: AVR Upper Canvas
   m_TagString: Untagged
@@ -2437,7 +2451,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0.0025987327}
+  m_AnchoredPosition: {x: 0.049, y: -0.0025987327}
   m_SizeDelta: {x: 15, y: 14.8371}
   m_Pivot: {x: 0.5, y: 0.66151017}
 --- !u!223 &1683164358419231211
@@ -2500,6 +2514,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &22997393
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 26388745099711981}
+  m_Enabled: 0
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &51609915770498339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2711,7 +2737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.504717, g: 1, b: 0.79607844, a: 1}
+  m_Color: {r: 0.504717, g: 1, b: 0.79607844, a: 0.9019608}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2739,9 +2765,10 @@ GameObject:
   - component: {fileID: 2710364577670919140}
   - component: {fileID: 6833559734705883442}
   - component: {fileID: 940202830502988175}
+  - component: {fileID: 314323762}
   m_Layer: 0
   m_Name: VRUICam
-  m_TagString: Untagged
+  m_TagString: Fader
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2823,6 +2850,18 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2663541057400684240}
   m_Enabled: 1
+--- !u!114 &314323762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2663541057400684240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dad7321bf81cd24a9cedb6c6d615093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2724600348069874604
 GameObject:
   m_ObjectHideFlags: 0
@@ -2914,6 +2953,7 @@ GameObject:
   - component: {fileID: 996889447602887761}
   - component: {fileID: 6508596889143899087}
   - component: {fileID: 6564565874048785607}
+  - component: {fileID: 525658079}
   m_Layer: 5
   m_Name: AVRSays
   m_TagString: Balloon
@@ -2929,7 +2969,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2988052851771692084}
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.87}
   m_LocalScale: {x: 1.3266, y: 1.3266, z: 1.3266}
   m_Children:
   - {fileID: 7159958987135156747}
@@ -2962,7 +3002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.9098039, b: 0, a: 0.6862745}
+  m_Color: {r: 1, g: 0.9098039, b: 0, a: 0.78431374}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2991,6 +3031,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textToSpeech: 
+--- !u!225 &525658079
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2988052851771692084}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &3895527773374084013
 GameObject:
   m_ObjectHideFlags: 0
@@ -3238,6 +3290,7 @@ GameObject:
   - component: {fileID: 852744108336784856}
   - component: {fileID: 2959808957236804537}
   - component: {fileID: 4331823558814813869}
+  - component: {fileID: 1183869459}
   m_Layer: 5
   m_Name: AVR Hint Canvas
   m_TagString: Untagged
@@ -3252,7 +3305,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4660160686237790540}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.13052624, z: 0, w: 0.9914449}
   m_LocalPosition: {x: 0, y: 0, z: 1.315}
   m_LocalScale: {x: 0.118890055, y: 0.118889995, z: 0.118890055}
   m_Children:
@@ -3260,7 +3313,7 @@ RectTransform:
   - {fileID: 7932186754202485914}
   m_Father: {fileID: 7856325166271998380}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -15, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: -0.5596, y: 0.0107}
@@ -3326,6 +3379,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &1183869459
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4660160686237790540}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6316121996091209091
 GameObject:
   m_ObjectHideFlags: 0
@@ -3353,7 +3418,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6316121996091209091}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.000022059074}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.021266334, y: 0.021266324, z: 0.021266334}
   m_Children: []
   m_Father: {fileID: 614621556766874512}
@@ -3361,8 +3426,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1.6134989, y: -4.0396504}
-  m_SizeDelta: {x: 191.59999, y: 292.24}
+  m_AnchoredPosition: {x: 1.717, y: -4.177}
+  m_SizeDelta: {x: 180.117, y: 282.935}
   m_Pivot: {x: 0.05762411, y: 0.9729408}
 --- !u!222 &9078620616541814600
 CanvasRenderer:
@@ -3394,11 +3459,11 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 38bb33c8497d2bf40a99bc406be05aca, type: 3}
-    m_FontSize: 20
+    m_FontSize: 18
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 15
-    m_MaxSize: 25
+    m_MaxSize: 18
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -3598,6 +3663,7 @@ GameObject:
   - component: {fileID: 5927872756085955024}
   - component: {fileID: 8789555471693460534}
   - component: {fileID: 1518217714180269852}
+  - component: {fileID: 1000890212}
   m_Layer: 5
   m_Name: AVR Side Canvas
   m_TagString: Untagged
@@ -3612,14 +3678,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8903928938870311340}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.13052616, z: 0, w: 0.9914449}
   m_LocalPosition: {x: 0, y: 0, z: 1.315}
   m_LocalScale: {x: 0.11889, y: 0.11889, z: 0.11889}
   m_Children:
   - {fileID: 4862863112701427720}
   m_Father: {fileID: 7856325166271998380}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 15, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: -0.0025987327}
@@ -3685,6 +3751,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &1000890212
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8903928938870311340}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &9182773938305176950
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,15 +20,19 @@ public class websockets : MonoBehaviour
     private GameObject happyFace;
     public int qtInCart;
     public string hintState;
-    
+    private UIFader fader;
+
     private void Awake()
     {
         qtInCart = 0;
+        hintState = "ENDED";
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         articles = GameObject.FindGameObjectsWithTag("Article");
         balloon = GameObject.FindGameObjectWithTag("Balloon").GetComponent<AVRSays>();
         happyFace = GameObject.FindGameObjectWithTag("HappyFace");
         happyFace.SetActive(false);
+        fader = GameObject.FindGameObjectWithTag("Fader").GetComponent<UIFader>();
+        GameObject.FindGameObjectWithTag("Balloon").SetActive(false);
         Connect();
     }
 
@@ -58,6 +62,7 @@ public class websockets : MonoBehaviour
             else if (res.Substring(1, 9) == "_AVRSAYS:")
             {
                 happyFace.SetActive(true);
+                balloon.gameObject.SetActive(true);
                 balloon.textToSpeech = res.Substring(1, res.Length - 2).Remove(0, 9);
                 res = "";
             }
@@ -124,10 +129,16 @@ public class websockets : MonoBehaviour
 
     private void HideFace(string sesh)
     {
+        Debug.Log(sesh);
         if (sesh == "STARTED")
-            happyFace.SetActive(true);
+        {
+            happyFace.SetActive(true); 
+        }
         else if(sesh == "ENDED")
+        {
+            fader.FadeOut(balloon.gameObject.GetComponent<CanvasGroup>());
             happyFace.SetActive(false);
+        }
         hintState = sesh;
     }
 

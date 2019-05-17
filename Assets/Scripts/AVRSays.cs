@@ -9,18 +9,24 @@ public class AVRSays : MonoBehaviour
     private Text balloonTxt;
     public string textToSpeech = "";
     private GameObject happyFace;
+    private UIFader fader;
 
     private void Awake()
     {
         happyFace = GameObject.FindGameObjectWithTag("HappyFace");
         GameObject.Find("Store").GetComponent<websockets>();
         balloonTxt = gameObject.GetComponentInChildren<Text>();
-        gameObject.SetActive(false);
+        fader = GameObject.FindGameObjectWithTag("Fader").GetComponent<UIFader>();
+        gameObject.GetComponentInParent<CanvasGroup>().alpha = 0;
+    }
+
+    private void Start()
+    {
+        fader.FadeIn(gameObject.GetComponentInParent<CanvasGroup>());
     }
 
     private void Update()
     {
         balloonTxt.text = textToSpeech;
-        gameObject.SetActive(textToSpeech != "");
     }
 }
