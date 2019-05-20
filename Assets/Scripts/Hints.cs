@@ -14,7 +14,7 @@ public class Hints : MonoBehaviour
     {
         ws = GameObject.Find("Store").GetComponent<websockets>();
         hints.Add("ENDED", "Al momento il tuo assistente è in pausa. \nProva a richiamarlo dicendo: \"Computer avvia Shopper\"");
-        hints.Add("STARTED", "Ciao! Se vuoi puoi chiedermi: \n \"Aggiungi scarpe al carrello\" \n \"Avvia tour\" ");
+        hints.Add("STARTED", "Ciao! Se vuoi puoi chiedermi: \n \"Aggiungi scarpe al carrello\" \n \"Cosa posso fare?\" ");
         gameObject.GetComponent<Text>().text = hints["ENDED"];
         fader = GameObject.FindGameObjectWithTag("Fader").GetComponent<UIFader>();
         gameObject.GetComponentInParent<CanvasGroup>().alpha = 0;

@@ -57,17 +57,17 @@ public class Crossair : BaseInputModule
         {
             buyHandler.buyAll();
         }
-    }
-
-    private void ProcessRelease(PointerEventData data)
-    {
-        Debug.Log("RELEASE: " + m_CurrentGameObject.name);
-        if (articleUI.isActiveAndOpened())
+        else if (articleUI.isActiveAndOpened())
         {
             cartHandler cH = m_CurrentGameObject.GetComponent<cartHandler>();
             if (cH != null)
                 cH.addToCart();
         }
+    }
+
+    private void ProcessRelease(PointerEventData data)
+    {
+        Debug.Log("RELEASE: " + m_CurrentGameObject.name);
     }
 
     private void UpdatePosition()
