@@ -75,6 +75,7 @@ public class Crossair : BaseInputModule
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5f))
         {
+            Debug.Log(hit);
             var article = hit.transform.GetComponent<Article>();
             var hitName = hit.transform.name;
             if (hit.collider != null)
@@ -85,6 +86,10 @@ public class Crossair : BaseInputModule
                 dot.color = Color.green;
             else
                 dot.color = Color.red;
+        }
+        else
+        {
+            dot.color = Color.white;
         }
     }
 }
