@@ -42,7 +42,8 @@ const HelpIntentHandler = {
             && handlerInput.requestEnvelope.request.intent.name === 'AMAZON.HelpIntent';
     },
     async handle(handlerInput) {
-        const speechText = 'In cosa posso aiutarti?';
+        const speechText = 'Il punto che vedi davanti a te è l\'indicatore del tuo centro focale, ti servirà per selezionare. Premi il grilletto per confermare. Per spostarti usa il teletrasporto premendo il tasto rotondo. ';
+        await socketHandler.AVRSays('_INSTRUCTIONS: ' + speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .reprompt(speechText)
@@ -147,7 +148,7 @@ const AddToCartIntentHandler = { // TODO: ADD ALEXA INTENT
     }
 }
 
-const IntoCartIntentHandler = { // TODO: ADD ALEXA INTENT
+const IntoCartIntentHandler = {
     canHandle(handlerInput){
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'IntoCart';
@@ -159,9 +160,9 @@ const IntoCartIntentHandler = { // TODO: ADD ALEXA INTENT
             speechText = 'Al momento il tuo carrello è vuoto.';
         }else{
             speechText = 'Nel tuo carrello sono presenti:';
-            console.log(articles); // ha ritornato vuoto
+            console.log(articles);
             articles.forEach((art, idx) => {
-                speechText += art.qta + ' ' + art.articleID;
+                speechText += art.qta + ' ' + art.name;
                 if(idx < articles.length - 1) speechText += ', ';
                 else speechText += '.';
             });
@@ -188,25 +189,13 @@ const HideIntentHandler = {
     }
 }
 
-const SuggestIntentHandler = {
-    canHandle(handlerInput){
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'Suggest';
-    },
-    async handle(handlerInput){
-        var speechText = '';
-        socketHandler.AVRSays(speechText, connectionId);
-        return handlerInput.responseBuilder.speak(speechText).getResponse();
-    }
-}
-
 const PriceIntentHandler = {
     canHandle(handlerInput){
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Price';
     },
     async handle(handlerInput){
-        var speechText = '';
+        var speechText = 'ARTICLE costa €';
         socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
@@ -216,18 +205,6 @@ const ChatIntentHandler = {
     canHandle(handlerInput){
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
             && handlerInput.requestEnvelope.request.intent.name === 'Chat';
-    },
-    async handle(handlerInput){
-        var speechText = '';
-        socketHandler.AVRSays(speechText, connectionId);
-        return handlerInput.responseBuilder.speak(speechText).getResponse();
-    }
-}
-
-const StartIntentHandler = {
-    canHandle(handlerInput){
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'Start';
     },
     async handle(handlerInput){
         var speechText = '';
@@ -317,10 +294,8 @@ exports.handler = Alexa.SkillBuilders.custom()
         IntoCartIntentHandler,
         ChatIntentHandler,
         PriceIntentHandler,
-        SuggestIntentHandler,
         HideIntentHandler,
         TutorialIntentHandler,
-        StartIntentHandler,
         LaunchRequestHandler, // defaults
         HelpIntentHandler,
         CancelAndStopIntentHandler,

@@ -19,9 +19,19 @@ async function buy(alexaId = util.AlexaId) {
 	}
 }
 
+function crossCart(articles, cart) {
+	articles.forEach(a => {
+		cart.forEach(c => {
+			if (a.articleID === c.articleID){
+				c['name'] = a.name;
+			}
+		});
+	});
+}
+
 async function intoCart(alexaId = util.AlexaId){
 	var cart = await getCart(alexaId);
-	console.log('INTOCART:' + cart);
+	var aInfo = await dynamo.getArticles();
 	var articles = [];
 	if (cart.length > 0){
 		cart.forEach(a => {
@@ -38,7 +48,7 @@ async function intoCart(alexaId = util.AlexaId){
 			} 
 		});
 	}
-	console.log(articles);
+	crossCart(aInfo, articles);
 	return articles;
 }
 

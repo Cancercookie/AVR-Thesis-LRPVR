@@ -55,6 +55,24 @@ async function getArticles(event, context) {
     return util.success;
 }
 
+async function intoCart(event, context) {
+	var speechText = '';
+        var articles = await mainFuncs.intoCart(util.alexaId);
+        if (articles.length === 0){
+            speechText = 'Al momento il tuo carrello è vuoto.';
+        }else{
+            speechText = 'Nel tuo carrello sono presenti:';
+            console.log(articles);
+            articles.forEach((art, idx) => {
+                speechText += art.qta + ' ' + art.name;
+                if(idx < articles.length - 1) speechText += ', ';
+                else speechText += '.';
+            });
+        }
+	await sendMessageToClient(speechText, event.requestContext.connectionId);
+    return util.success;
+}
+
 async function read(event, context, callback) {
 	const row = await dynamo.getRowById(util.AlexaId);
 	await sendMessageToClient(row, event.requestContext.connectionId);
@@ -97,6 +115,7 @@ module.exports = {
   	write,
   	buy,
   	addToCart,
+  	intoCart,
   	getArticles,
   	AVRSays
 };
