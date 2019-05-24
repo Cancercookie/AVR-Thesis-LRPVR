@@ -27,19 +27,20 @@ public class BuyHandler : MonoBehaviour
     {
         if (WS.qtInCart > 0)
         {
-            if(count <= 60)
-            {
-                cashier.GetComponent<Renderer>().materials[6] = greenLit;
-            }
-            else if(count <= 120)
-            {
-                cashier.GetComponent<Renderer>().materials[6] = stdMat;
-            }
-            else
-            {
-                count = 0;
-            }
-            count += 1;
+            cashier.GetComponent<Renderer>().materials[6] = greenLit;
+            //if (count <= 60)
+            //{
+            //    cashier.GetComponent<Renderer>().materials[6] = greenLit;
+            //}
+            //else if(count <= 120)
+            //{
+            //    cashier.GetComponent<Renderer>().materials[6] = stdMat;
+            //}
+            //else
+            //{
+            //    count = 0;
+            //}
+            //count += 1;
         }
         else
         {
