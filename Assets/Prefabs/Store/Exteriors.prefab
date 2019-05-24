@@ -612,9 +612,9 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_IsSelectable: 1
-  m_SelectedFaces: 
+  m_SelectedFaces: 00000000
   m_SelectedEdges: []
-  m_SelectedVertices: 17000000
+  m_SelectedVertices: 
 --- !u!64 &2536055045328286099
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1859,17 +1859,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 37.5
+      value: 42.335
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0014695066
+      value: -0.046
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 47.06
+      value: 45.986
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}
@@ -1914,17 +1914,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.000023578303
+      value: 0.000053067834
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.000023578259
+      value: 0.00005306774
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.000023578303
+      value: 0.000053067834
       objectReference: {fileID: 0}
     - target: {fileID: -6610092859229988773, guid: a29b4a447db0c0f438dd1fc8c6e74cbc,
         type: 3}

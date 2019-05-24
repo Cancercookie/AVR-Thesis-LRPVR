@@ -53,10 +53,10 @@ public class websockets : MonoBehaviour
     {
         WebSocketReceiveResult r = await cws.ReceiveAsync(buf, CancellationToken.None);
         res += Encoding.UTF8.GetString(buf.Array, 0, r.Count);
-        Debug.Log("Got: " + Encoding.UTF8.GetString(buf.Array, 0, r.Count));
+        Debug.Log("GOT: " + Encoding.UTF8.GetString(buf.Array, 0, r.Count));
         if (r.EndOfMessage)
         {
-            Debug.Log(res);
+            Debug.Log("END: " + res);
             if (state == "getArticles")
                 GenerateArticlesInfos(res);
             else if (res.Substring(1, 9) == "_AVRSAYS:")
@@ -110,7 +110,7 @@ public class websockets : MonoBehaviour
             {
                 articleInstance.articleName = aInfo.name;
                 articleInstance.description = aInfo.description;
-                articleInstance.price = aInfo.price;
+                articleInstance.price = Math.Round(aInfo.price, 2);
             }
         }
         foreach (GameObject spawner in spawners)

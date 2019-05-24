@@ -44,13 +44,9 @@ public class ArticleUI : MonoBehaviour
         AVR_Canvas.gameObject.transform.Find("Scroll View").gameObject.SetActive(visible);
         select();
         if (visible)
-        {
             transform.LookAt(player.transform);
-        }
         else
-        {
             transform.position = Vector3.zero;
-        }
         cartCount.text = WS.qtInCart.ToString();
     }
 
