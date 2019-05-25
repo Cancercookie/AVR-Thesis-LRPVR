@@ -12,6 +12,7 @@ TagManager:
   - Balloon
   - HappyFace
   - Fader
+  - Confetti
   layers:
   - Default
   - TransparentFX

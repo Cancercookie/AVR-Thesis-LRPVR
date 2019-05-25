@@ -21,19 +21,27 @@ public class websockets : MonoBehaviour
     public int qtInCart;
     public string hintState;
     private UIFader fader;
+    private ParticleSystem confetti;
 
     private void Awake()
     {
         qtInCart = 0;
-        hintState = "ENDED";
+        hintState = "STARTED";
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         articles = GameObject.FindGameObjectsWithTag("Article");
         balloon = GameObject.FindGameObjectWithTag("Balloon").GetComponent<AVRSays>();
         happyFace = GameObject.FindGameObjectWithTag("HappyFace");
         happyFace.SetActive(false);
         fader = GameObject.FindGameObjectWithTag("Fader").GetComponent<UIFader>();
+        confetti = GameObject.FindGameObjectWithTag("Confetti").GetComponent<ParticleSystem>();
         GameObject.FindGameObjectWithTag("Balloon").SetActive(false);
         Connect();
+    }
+
+    private void Update()
+    {
+        if (qtInCart > 0)
+            hintState = "CANBUY";
     }
 
     async void Connect()
@@ -53,7 +61,7 @@ public class websockets : MonoBehaviour
     {
         WebSocketReceiveResult r = await cws.ReceiveAsync(buf, CancellationToken.None);
         res += Encoding.UTF8.GetString(buf.Array, 0, r.Count);
-        Debug.Log("GOT: " + Encoding.UTF8.GetString(buf.Array, 0, r.Count));
+        // Debug.Log("GOT: " + Encoding.UTF8.GetString(buf.Array, 0, r.Count));
         if (r.EndOfMessage)
         {
             Debug.Log("END: " + res);
@@ -94,8 +102,10 @@ public class websockets : MonoBehaviour
 
     public async void buy()
     {
+
         ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: buy}"));
         await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
+        confetti.Play();
     }
 
     private void GenerateArticlesInfos(String res)
@@ -129,7 +139,6 @@ public class websockets : MonoBehaviour
 
     private void HideFace(string sesh)
     {
-        Debug.Log(sesh);
         if (sesh == "STARTED")
         {
             happyFace.SetActive(true); 

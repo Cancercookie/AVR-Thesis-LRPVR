@@ -51,7 +51,6 @@ public class Crossair : BaseInputModule
 
     private void ProcessPress(PointerEventData data)
     {
-        Debug.Log("PRESS: " + m_CurrentGameObject.name);
         string buy = m_CurrentGameObject.name;
         if (buy == "Buy" && WS.qtInCart > 0)
         {
@@ -67,7 +66,7 @@ public class Crossair : BaseInputModule
 
     private void ProcessRelease(PointerEventData data)
     {
-        Debug.Log("RELEASE: " + m_CurrentGameObject.name);
+        
     }
 
     private void UpdatePosition()
@@ -75,7 +74,6 @@ public class Crossair : BaseInputModule
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5f))
         {
-            Debug.Log(hit);
             var article = hit.transform.GetComponent<Article>();
             var hitName = hit.transform.name;
             if (hit.collider != null)
