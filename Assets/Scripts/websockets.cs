@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using System.Threading;
 using System.Net.WebSockets;
@@ -21,27 +22,35 @@ public class websockets : MonoBehaviour
     public int qtInCart;
     public string hintState;
     private UIFader fader;
-    private ParticleSystem confetti;
 
     private void Awake()
     {
         qtInCart = 0;
-        hintState = "STARTED";
+        hintState = "ENDED";
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         articles = GameObject.FindGameObjectsWithTag("Article");
         balloon = GameObject.FindGameObjectWithTag("Balloon").GetComponent<AVRSays>();
         happyFace = GameObject.FindGameObjectWithTag("HappyFace");
         happyFace.SetActive(false);
         fader = GameObject.FindGameObjectWithTag("Fader").GetComponent<UIFader>();
-        confetti = GameObject.FindGameObjectWithTag("Confetti").GetComponent<ParticleSystem>();
-        GameObject.FindGameObjectWithTag("Balloon").SetActive(false);
         Connect();
     }
 
     private void Update()
     {
-        if (qtInCart > 0)
+        if (qtInCart > 0 && hintState == "STARTED")
             hintState = "CANBUY";
+        if (hintState == "ENDED" && balloon.gameObject.GetComponent<CanvasGroup>().alpha == 1)
+            StartCoroutine(Hide());
+        if(qtInCart > 0)
+            transform.Find("Checkout/Arrow").GetComponent<Animation>().Play();
+    }
+
+    private IEnumerator Hide()
+    {
+        yield return new WaitForSeconds(5);
+        fader.FadeOut(balloon.gameObject.GetComponent<CanvasGroup>());
+        happyFace.SetActive(false);
     }
 
     async void Connect()
@@ -70,18 +79,17 @@ public class websockets : MonoBehaviour
             else if (res.Substring(1, 9) == "_AVRSAYS:")
             {
                 happyFace.SetActive(true);
-                balloon.gameObject.SetActive(true);
+                fader.FadeIn(balloon.gameObject.GetComponentInParent<CanvasGroup>());
                 balloon.textToSpeech = res.Substring(1, res.Length - 2).Remove(0, 9);
-                res = "";
             }
             else if (res.Substring(1, 9) == "_SESSION:")
             {
                 var sesh = res.Substring(1, res.Length - 2).Remove(0, 9);
-                HideFace(sesh);
-                res = "";
+                HideFace(sesh); 
             }
-            else
-                res = "";
+            else if (res.Substring(1, 9) == "_ARTICLE:")
+                qtInCart += 1;
+            res = "";
         }   
         WSReceiver();
     }
@@ -102,10 +110,10 @@ public class websockets : MonoBehaviour
 
     public async void buy()
     {
-
         ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: buy}"));
         await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
-        confetti.Play();
+        GameObject.FindGameObjectWithTag("Confetti").GetComponent<ParticleSystem>().Play();
+        GameObject.FindGameObjectWithTag("Confetti").transform.GetChild(0).GetComponent<AudioSource>().Play();
     }
 
     private void GenerateArticlesInfos(String res)

@@ -22,7 +22,7 @@ public class AVRSays : MonoBehaviour
 
     private void Start()
     {
-        fader.FadeIn(gameObject.GetComponentInParent<CanvasGroup>());
+        // fader.FadeIn(gameObject.GetComponentInParent<CanvasGroup>());
     }
 
     private void Update()

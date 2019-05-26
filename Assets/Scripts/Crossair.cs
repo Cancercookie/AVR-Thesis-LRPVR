@@ -51,11 +51,11 @@ public class Crossair : BaseInputModule
 
     private void ProcessPress(PointerEventData data)
     {
-        string buy = m_CurrentGameObject.name;
+        string buy = "";
+        if (m_CurrentGameObject != null)
+            buy = m_CurrentGameObject.name;
         if (buy == "Buy" && WS.qtInCart > 0)
-        {
             buyHandler.buyAll();
-        }
         else if (articleUI.isActiveAndOpened())
         {
             cartHandler cH = m_CurrentGameObject.GetComponent<cartHandler>();
@@ -80,7 +80,7 @@ public class Crossair : BaseInputModule
                 dot.transform.position = hit.point;
             else
                 dot.transform.position = transform.position + (transform.position * 5f);
-            if (article != null || hitName == "Buy")
+            if (article != null || (hitName == "Cashier" && WS.qtInCart > 0))
                 dot.color = Color.green;
             else
                 dot.color = Color.red;

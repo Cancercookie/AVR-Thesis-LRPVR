@@ -24,7 +24,6 @@ public class cartHandler : MonoBehaviour
     {
         WS.addToCart(articleUI.article.articleID);
         articlesInCart.Add(articleUI.article); // mettere in WS
-        WS.qtInCart += 1;
         articleUI.close();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using Valve.VR;
+using UnityEditor;
 
 public class ArticleUI : MonoBehaviour
 {
@@ -60,13 +61,12 @@ public class ArticleUI : MonoBehaviour
 
     private void articlePrep()
     {
-        // LOCK IN PLACE
         // KEEP HIGHLIGHTED
     }
 
     private void UIPrep()
     {
-        transform.position = article.transform.position;
+        transform.position = article.GetComponent<Collider>().bounds.center;
         infoScroll.GetComponentInChildren<Text>().text = article.description;
         transform.Find("Canvas/AddToCartBtn/Price").GetComponent<Text>().text = article.price.ToString("F") + "€";
         transform.Find("Canvas/Title/Text").GetComponent<Text>().text = article.articleName;
@@ -78,11 +78,13 @@ public class ArticleUI : MonoBehaviour
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 5f)) {
             if (interactUI.GetStateDown(SteamVR_Input_Sources.Any))
             {
-                if(hit.transform.GetComponent<Article>() != null)
+                if (hit.transform.GetComponent<Article>() != null)
                 {
                     article = hit.transform.GetComponent<Article>();
                     open();
-                } 
+                }
+                else if (hit.transform.GetComponent<Article>() != null && isActiveAndOpened())
+                    close();
                 else
                     close();
             }   

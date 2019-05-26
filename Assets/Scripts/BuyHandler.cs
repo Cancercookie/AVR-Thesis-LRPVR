@@ -26,11 +26,9 @@ public class BuyHandler : MonoBehaviour
     void Update()
     {
         if (WS.qtInCart > 0)
-        {
             cashier.GetComponent<Renderer>().materials[6] = greenLit;
-        }
-        
-            
+        else
+            cashier.GetComponent<Renderer>().materials[6] = stdMat;
     }
 
     public void buyAll()
