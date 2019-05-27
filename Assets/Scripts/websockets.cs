@@ -20,12 +20,16 @@ public class websockets : MonoBehaviour
     private AVRSays balloon;
     private GameObject happyFace;
     public int qtInCart;
+    public string cartPrice;
     public string hintState;
     private UIFader fader;
+    private GameObject cashier;
+    private BuyHandler buyH;
 
     private void Awake()
     {
         qtInCart = 0;
+        cartPrice = "0";
         hintState = "ENDED";
         spawners = GameObject.FindGameObjectsWithTag("Spawner");
         articles = GameObject.FindGameObjectsWithTag("Article");
@@ -33,6 +37,8 @@ public class websockets : MonoBehaviour
         happyFace = GameObject.FindGameObjectWithTag("HappyFace");
         happyFace.SetActive(false);
         fader = GameObject.FindGameObjectWithTag("Fader").GetComponent<UIFader>();
+        cashier = GameObject.Find("Store/Checkout/Cashier");
+        buyH = GameObject.Find("Store/Checkout/CheckoutCanvas/Buy").GetComponent<BuyHandler>();
         Connect();
     }
 
@@ -42,8 +48,14 @@ public class websockets : MonoBehaviour
             hintState = "CANBUY";
         if (hintState == "ENDED" && balloon.gameObject.GetComponent<CanvasGroup>().alpha == 1)
             StartCoroutine(Hide());
-        if(qtInCart > 0)
+        if (qtInCart > 0)
+        {
+            transform.Find("Checkout/Arrow").gameObject.SetActive(true);
             transform.Find("Checkout/Arrow").GetComponent<Animation>().Play();
+        }
+        else
+             transform.Find("Checkout/Arrow").gameObject.SetActive(false);
+        
     }
 
     private IEnumerator Hide()
@@ -74,6 +86,7 @@ public class websockets : MonoBehaviour
         if (r.EndOfMessage)
         {
             Debug.Log("END: " + res);
+            Debug.Log(res.Substring(2, 9));
             if (state == "getArticles")
                 GenerateArticlesInfos(res);
             else if (res.Substring(1, 9) == "_AVRSAYS:")
@@ -88,7 +101,15 @@ public class websockets : MonoBehaviour
                 HideFace(sesh); 
             }
             else if (res.Substring(1, 9) == "_ARTICLE:")
+            {
                 qtInCart += 1;
+                WSGetTotal();
+            }
+            else if(res.Substring(2,9) == "cartPrice")
+            {
+                cartPrice = res.Substring(14, 5);
+                Debug.Log(cartPrice); 
+            }
             res = "";
         }   
         WSReceiver();
@@ -99,6 +120,12 @@ public class websockets : MonoBehaviour
         ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: getArticles}"));
         await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
         state = "getArticles";
+    }
+
+    async void WSGetTotal()
+    {
+        ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: getTotal}"));
+        await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
     }
 
     public async void addToCart(string ArticleID)
@@ -114,6 +141,8 @@ public class websockets : MonoBehaviour
         await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
         GameObject.FindGameObjectWithTag("Confetti").GetComponent<ParticleSystem>().Play();
         GameObject.FindGameObjectWithTag("Confetti").transform.GetChild(0).GetComponent<AudioSource>().Play();
+        qtInCart = 0;
+        cartPrice = "0";
     }
 
     private void GenerateArticlesInfos(String res)
@@ -172,6 +201,12 @@ public class DBArticle
     public string description;
     public double price;
     public string name;
+}
+
+[Serializable]
+public class DBCartPrice
+{
+    public string cartPrice;
 }
 
 public static class JsonHelper

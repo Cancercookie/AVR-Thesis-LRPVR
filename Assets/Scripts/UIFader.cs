@@ -25,13 +25,9 @@ public class UIFader : MonoBehaviour {
 		{
 			timeSinceStarted = Time.time - _timeStartedLerping;
 			percentageComplete = timeSinceStarted / lerpTime;
-
 			float currentValue = Mathf.Lerp(start, end, percentageComplete);
-
             cg.alpha = currentValue;
-
             if (percentageComplete >= 1) break;
-
 			yield return new WaitForFixedUpdate();
 		}
 	}
