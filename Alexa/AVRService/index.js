@@ -19,7 +19,6 @@ const LaunchRequestHandler = {
         var speechText = 'Ciao, sono il tuo personal shopping assistant. ';
         if (await dynamo.isClientConnected(util.AlexaId)) { 
             connectionId = await dynamo.getClientId(util.AlexaId);
-            await socketHandler.sendMessageToClient('AVR Skill Inititated', connectionId);
             speechText += 'In cosa posso aiutarti?'; 
         }
         else { 
@@ -30,7 +29,6 @@ const LaunchRequestHandler = {
         await socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
-            .reprompt(speechText)
             .withShouldEndSession(false)
             .getResponse();
     }
@@ -58,10 +56,10 @@ const CancelAndStopIntentHandler = {
                 || handlerInput.requestEnvelope.request.intent.name === 'AMAZON.StopIntent');
     },
     async handle(handlerInput) {
-        const speechText = '<say-as interpret-as="interjection">vabbè</say-as>';
+        const speechText = 'arrivederci';
         await socketHandler.AVRSays('_SESSION:ENDED', connectionId);
         return handlerInput.responseBuilder
-            .speak(speechText)
+            .speak('<say-as interpret-as="interjection">' + speechText + '</say-as>')
             .getResponse();
     }
 };
@@ -88,6 +86,7 @@ const IntentReflectorHandler = {
         const intentName = handlerInput.requestEnvelope.request.intent.name;
         const speechText = `Intento: ${intentName}`;
         console.log('Errore nell handler');
+        await socketHandler.AVRSays(speechText, connectionId); 
         return handlerInput.responseBuilder
             .speak(speechText)
             .getResponse();
@@ -121,26 +120,46 @@ const BuyIntentHandler = {
     },
     async handle(handlerInput){
         await mainFuncs.buy(util.alexaId);
-        socketHandler.AVRSays(speechText, connectionId);
+        socketHandler.AVRSays('Grazie mille per il tuo acquisto', connectionId);
         return handlerInput.responseBuilder
-            .speak('Grazie mille per il tuo acquisto')
+            .speak('<audio src="https://s3-eu-west-1.amazonaws.com/avrbucket/Cash+Register+(Kaching).mp3"/> Grazie mille per il tuo acquisto')
             .withShouldEndSession(false)
             .getResponse();
     }
-}
+};
 
-const AddToCartIntentHandler = { // TODO: ADD ALEXA INTENT
+const AddToCartIntentHandler = {
     canHandle(handlerInput){
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'addToCart';
+        const handleRequest = handlerInput.requestEnvelope.request;
+        if(handleRequest.type === 'IntentRequest'&& handleRequest.intent.name === 'addToCart') {
+            const slots = handleRequest.intent.slots;
+            console.log(slots);
+            if(slots.article){
+                const attributesManager = handlerInput.attributesManager;
+                const sessionAttributes = attributesManager.getSessionAttributes();
+                if(slots.article.resolutions.resolutionsPerAuthority[0].status.code === 'ER_SUCCESS_MATCH'){
+                    sessionAttributes.article = handleRequest.intent.slots.article.value;
+                }else {
+                    sessionAttributes.article = 'REJECTED';
+                }
+            attributesManager.setSessionAttributes(sessionAttributes);
+            return true;
+            }
+        }else{
+            return false;
+        }
     },
     async handle(handlerInput){
         const attributesManager = handlerInput.attributesManager;
         let sessionAttributes = attributesManager.getSessionAttributes();
-        var speechText = 'Articolo aggiunto al carrello';
         console.log(sessionAttributes);
-        await mainFuncs.addToCart(util.alexaId, sessionAttributes.article);
-        socketHandler.AVRSays(speechText, connectionId);
+        if(sessionAttributes.article !== 'REJECTED'){
+            var speechText = await mainFuncs.addToCart(util.alexaId, sessionAttributes.article);
+        }
+        else {
+            var speechText = 'Putroppo l\'articolo richiesto è errato. Riprova';
+            socketHandler.AVRSays(speechText, connectionId);
+        }
         return handlerInput.responseBuilder
         .speak(speechText)
         .withShouldEndSession(false)
@@ -184,18 +203,37 @@ const HideIntentHandler = {
         var speechText = 'Per riattivarmi, chiamami o premi il pulsante. Arrivederci';
         socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder
-            .speak(speechtext)
+            .speak(speechText)
             .getResponse();
     }
 }
 
 const PriceIntentHandler = {
     canHandle(handlerInput){
-        return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'Price';
+        const handleRequest = handlerInput.requestEnvelope.request;
+        if(handleRequest.type === 'IntentRequest'&& handleRequest.intent.name === 'Price') {
+            const slots = handleRequest.intent.slots;
+            console.log(slots);
+            if(slots.article){
+                const attributesManager = handlerInput.attributesManager;
+                const sessionAttributes = attributesManager.getSessionAttributes();
+                sessionAttributes.article = handleRequest.intent.slots.article.value;
+                attributesManager.setSessionAttributes(sessionAttributes);
+                return true;
+            }
+        }else{
+            return false;
+        }
     },
     async handle(handlerInput){
-        var speechText = 'ARTICLE costa €';
+        const attributesManager = handlerInput.attributesManager;
+        let sessionAttributes = attributesManager.getSessionAttributes();
+        console.log(sessionAttributes);
+        const a = await dynamo.getArticle(sessionAttributes.article);
+        console.log(a);
+        const price = parseFloat(a.price);
+        console.log(price);
+        var speechText = sessionAttributes.article + ' costa ' + price + '€';
         socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder.speak(speechText).getResponse();
     }

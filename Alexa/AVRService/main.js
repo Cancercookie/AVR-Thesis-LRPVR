@@ -3,19 +3,27 @@ const dynamo = require('dynamo.js');
 const util = require('util.js');
 var connectionId = '';
 
-async function addToCart(alexaId = util.AlexaId, articles) {
-	console.log('Add: ' + articles);
+async function addToCart(alexaId = util.AlexaId, article) {
+	console.log('Add: ' + article);
 	var cart = await getCart(alexaId);
-	cart = cart.concat(articles);
+	cart = cart.concat(article);
 	if (await dynamo.writeRow(alexaId, {cart: cart}, true)) {
-		// await socketHandler.sendMessageToClient({articles, cart}, connectionId);
+		const a = await dynamo.getArticles(article);
+		const articlePrice = parseFloat(a[0].price);
+		const p = await dynamo.getRowById(alexaId, 'cartPrice', true);
+		const cartPrice = parseFloat(p.cartPrice);
+		await dynamo.writeRow(alexaId, {cartPrice: (cartPrice + articlePrice).toString()})
+		var speechText = 'Articolo aggiunto al carrello: ' + article;
+		await sendMessageToClient('_ARTICLE: ' + article, connectionId);
+		await sendMessageToClient('_AVRSAYS: ' + speechText, connectionId);
+		return speechText;
 	}
 }
 
 async function buy(alexaId = util.AlexaId) {
 	var cart = getCart(alexaId);
 	if (await dynamo.writeRow(alexaId, {cart: []}, true)){
-		// await socketHandler.sendMessageToClient(cart, connectionId);
+		await sendMessageToClient(cart, connectionId);
 	}
 }
 
@@ -57,6 +65,27 @@ async function getCart(alexaId = util.AlexaId) {
 	connectionId = r.unityUserId
 	var cart = r.cart;
 	return cart;
+}
+
+async function sendMessageToClient(data, connectionId) {
+	if(await dynamo.isClientConnected(util.AlexaId)) {
+		const apigatewaymanagementapi = new util.AWS.ApiGatewayManagementApi({apiVersion: '2029', endpoint: util.webSocketEndpoint});
+		return new Promise(function(resolve, reject) {
+			apigatewaymanagementapi.postToConnection({
+    			ConnectionId: connectionId, // connectionId of the receiving ws-client
+    			Data: JSON.stringify(data)
+			}, 
+			(err, data) => {
+			if (err) {
+				console.log('Error: ', err);
+				reject(err);
+			}
+			resolve(data);
+			});	
+		})
+	} else {
+		console.log('client is disconnected');
+	}
 }
 
 module.exports = {

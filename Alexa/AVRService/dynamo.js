@@ -56,6 +56,28 @@ async function getArticles() {
 	})
 }
 
+async function getArticle(articleID, projection) {
+	const scanParams = {
+		TableName: 'Articles'
+	}
+	if (!!projection) { scanParams.ProjectionExpression = projection; }
+	scanParams.FilterExpression = "articleID = :a";
+	scanParams.Key = {
+		articleID: articleID
+	}
+ 	var documentClient = new util.AWS.DynamoDB.DocumentClient();
+	return await new Promise(function(resolve, reject) {
+		documentClient.get(scanParams, 
+			(err, data) => {
+   				if (err) {
+					console.log('Error: ', err);
+					reject(err);
+				}
+  				resolve(data.Item);
+		});
+	});
+}
+
 async function getRowById(alexaId, projection, clean = false) {
 	var scanParams = _.cloneDeep(params);
 	if (!!projection) { scanParams.ProjectionExpression = projection; }
@@ -193,6 +215,7 @@ module.exports = {
     putNewRow,
     getRowById,
     getArticles,
+    getArticle,
     getClientId,
     updateUnityId,
     isClientConnected,

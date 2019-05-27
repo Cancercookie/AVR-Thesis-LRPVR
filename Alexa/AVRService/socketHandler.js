@@ -35,9 +35,12 @@ async function connectionManager(event, context) {
 	const eventType = event.requestContext.eventType;
 	if (eventType === 'CONNECT'){
 		await dynamo.putNewRow(event.requestContext.connectionId);
+		await dynamo.writeRow(util.AlexaId, {cart: []}, true);
+		await dynamo.writeRow(util.AlexaId, {cartPrice: '0'}, true);
 	}else if (eventType === 'DISCONNECT') {
 		await dynamo.updateUnityId([], 'disconnected');
 		await dynamo.writeRow(util.AlexaId, {cart: []}, true);
+		await dynamo.writeRow(util.AlexaId, {cartPrice: '0'}, true);
 	}else {
 		console.log('dunno');
 		return
@@ -96,16 +99,14 @@ async function buy(event, context, callback) {
 async function addToCart(event, context, callback) {
 	const body = JSON.parse(event.body);
 	console.log(body);
-	const res = await mainFuncs.addToCart(util.AlexaId, body.articleIDs);
-	var speechText = 'Nel tuo carrello sono ora presenti: ';
-	console.log(res);
-	res.forEach((art, idx) => {
-            speechText += art.qta + ' ' + art.name;
-            if(idx < articles.length - 1) speechText += ', ';
-            else speechText += '.';
-        });
-	await AVRSays(speechText, event.requestContext.connectionId);
+	await mainFuncs.addToCart(util.AlexaId, body.articleIDs);
     return util.success;
+}
+
+async function getTotal(event, context, callback) {
+	const cartPrice = await dynamo.getRowById(util.AlexaId, 'cartPrice', true);
+	await sendMessageToClient(cartPrice, event.requestContext.connectionId);
+	return util.success;
 }
 
 module.exports = {
@@ -116,6 +117,7 @@ module.exports = {
   	buy,
   	addToCart,
   	intoCart,
+  	getTotal,
   	getArticles,
   	AVRSays
 };
