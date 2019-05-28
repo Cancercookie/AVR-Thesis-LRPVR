@@ -31,7 +31,7 @@ public class Crossair : BaseInputModule
     public override void Process()
     {
         UpdatePosition();
-        m_Data.Reset();
+        if (m_Data != null) m_Data.Reset();
         m_Data.position = new Vector2(m_Camera.pixelWidth / 2, m_Camera.pixelHeight / 2);
         eventSystem.RaycastAll(m_Data, m_RaycastResultCache);
         m_Data.pointerCurrentRaycast = FindFirstRaycast(m_RaycastResultCache);

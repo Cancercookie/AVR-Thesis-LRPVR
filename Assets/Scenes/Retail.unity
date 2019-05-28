@@ -2567,6 +2567,26 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 208997092}
+    - target: {fileID: 592110552220327197, guid: 62045742ece23124fb940b82fcf8c0cd,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 592110552220327197, guid: 62045742ece23124fb940b82fcf8c0cd,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 592110552220327197, guid: 62045742ece23124fb940b82fcf8c0cd,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 592110552220327197, guid: 62045742ece23124fb940b82fcf8c0cd,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62045742ece23124fb940b82fcf8c0cd, type: 3}
 --- !u!1001 &2536055046641247672

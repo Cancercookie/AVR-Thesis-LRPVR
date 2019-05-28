@@ -58,11 +58,11 @@ public class websockets : MonoBehaviour
         
     }
 
-    private IEnumerator Hide()
+    private IEnumerator Hide(bool face = true)
     {
         yield return new WaitForSeconds(5);
         fader.FadeOut(balloon.gameObject.GetComponent<CanvasGroup>());
-        happyFace.SetActive(false);
+        if (face) happyFace.SetActive(false);
     }
 
     async void Connect()
@@ -86,7 +86,6 @@ public class websockets : MonoBehaviour
         if (r.EndOfMessage)
         {
             Debug.Log("END: " + res);
-            Debug.Log(res.Substring(2, 9));
             if (state == "getArticles")
                 GenerateArticlesInfos(res);
             else if (res.Substring(1, 9) == "_AVRSAYS:")
@@ -94,11 +93,11 @@ public class websockets : MonoBehaviour
                 happyFace.SetActive(true);
                 fader.FadeIn(balloon.gameObject.GetComponentInParent<CanvasGroup>());
                 balloon.textToSpeech = res.Substring(1, res.Length - 2).Remove(0, 9);
+                StartCoroutine(Hide(false));
             }
             else if (res.Substring(1, 9) == "_SESSION:")
             {
-                var sesh = res.Substring(1, res.Length - 2).Remove(0, 9);
-                HideFace(sesh); 
+                HideFace(res.Substring(1, res.Length - 2).Remove(0, 9)); 
             }
             else if (res.Substring(1, 9) == "_ARTICLE:")
             {
@@ -108,7 +107,6 @@ public class websockets : MonoBehaviour
             else if(res.Substring(2,9) == "cartPrice")
             {
                 cartPrice = res.Substring(14, 5);
-                Debug.Log(cartPrice); 
             }
             res = "";
         }   
@@ -135,10 +133,13 @@ public class websockets : MonoBehaviour
         await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
     }
 
-    public async void buy()
+    public async void buy(bool fromUnity = true)
     {
-        ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: buy}"));
-        await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
+        if (fromUnity)
+        {
+            ArraySegment<byte> b = new ArraySegment<byte>(Encoding.UTF8.GetBytes("{action: buy}"));
+            await cws.SendAsync(b, WebSocketMessageType.Text, true, CancellationToken.None);
+        }
         GameObject.FindGameObjectWithTag("Confetti").GetComponent<ParticleSystem>().Play();
         GameObject.FindGameObjectWithTag("Confetti").transform.GetChild(0).GetComponent<AudioSource>().Play();
         qtInCart = 0;
@@ -184,6 +185,8 @@ public class websockets : MonoBehaviour
         {
             fader.FadeOut(balloon.gameObject.GetComponent<CanvasGroup>());
             happyFace.SetActive(false);
+        }else if(sesh == "BOUGHT"){
+            buy(false);
         }
         hintState = sesh;
     }
