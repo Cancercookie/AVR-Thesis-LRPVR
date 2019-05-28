@@ -116,11 +116,11 @@ const ErrorHandler = {
 const BuyIntentHandler = {
     canHandle(handlerInput){
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'Buy';
+            && handlerInput.requestEnvelope.request.intent.name === 'Buy'
+            && handlerInput.requestEnvelope.request.intent.confirmationStatus === 'CONFIRMED';
     },
     async handle(handlerInput){
         await mainFuncs.buy(util.alexaId);
-        socketHandler.AVRSays('Grazie mille per il tuo acquisto', connectionId);
         return handlerInput.responseBuilder
             .speak('<audio src="https://s3-eu-west-1.amazonaws.com/avrbucket/Cash+Register+(Kaching).mp3"/> Grazie mille per il tuo acquisto')
             .withShouldEndSession(false)
@@ -158,14 +158,14 @@ const AddToCartIntentHandler = {
         }
         else {
             var speechText = 'Putroppo l\'articolo richiesto è errato. Riprova';
-            socketHandler.AVRSays(speechText, connectionId);
+            await socketHandler.AVRSays(speechText, connectionId);
         }
         return handlerInput.responseBuilder
         .speak(speechText)
         .withShouldEndSession(false)
         .getResponse();
     }
-}
+};
 
 const IntoCartIntentHandler = {
     canHandle(handlerInput){
@@ -186,13 +186,13 @@ const IntoCartIntentHandler = {
                 else speechText += '.';
             });
         }
-        socketHandler.AVRSays(speechText, connectionId);
+        await socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder
         .speak(speechText)
         .withShouldEndSession(false)
         .getResponse();
     }
-}
+};
 
 const HideIntentHandler = {
     canHandle(handlerInput){
@@ -201,12 +201,12 @@ const HideIntentHandler = {
     },
     async handle(handlerInput){
         var speechText = 'Per riattivarmi, chiamami o premi il pulsante. Arrivederci';
-        socketHandler.AVRSays(speechText, connectionId);
+        await socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder
             .speak(speechText)
             .getResponse();
     }
-}
+};
 
 const PriceIntentHandler = {
     canHandle(handlerInput){
@@ -234,10 +234,10 @@ const PriceIntentHandler = {
         const price = parseFloat(a.price);
         console.log(price);
         var speechText = sessionAttributes.article + ' costa ' + price + '€';
-        socketHandler.AVRSays(speechText, connectionId);
+        await socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
-}
+};
 
 const ChatIntentHandler = {
     canHandle(handlerInput){
@@ -246,10 +246,10 @@ const ChatIntentHandler = {
     },
     async handle(handlerInput){
         var speechText = '';
-        socketHandler.AVRSays(speechText, connectionId);
+        await ocketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
-}
+};
 
 const TutorialIntentHandler = {
     canHandle(handlerInput){
@@ -318,10 +318,10 @@ const TutorialIntentHandler = {
         }
         var row = await dynamo.getRowById(util.AlexaId, 'step, stepCardinal');
         await socketHandler.sendMessageToClient(row, connectionId);
-        socketHandler.AVRSays(speechText, connectionId);
+        await socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder.speak(speechText).withShouldEndSession(false).getResponse();
     }
-}
+};
 
 /*HANDLERS */
 

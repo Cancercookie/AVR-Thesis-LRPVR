@@ -90,9 +90,7 @@ async function write(event, context, callback) {
 }
 
 async function buy(event, context, callback) {
-	const res = await mainFuncs.buy(util.AlexaId);
-	var speechText = 'Grazie mille per l\'acquisto';
-	await AVRSays(speechText, event.requestContext.connectionId);
+	await mainFuncs.buy(util.AlexaId);
     return util.success;
 }
 

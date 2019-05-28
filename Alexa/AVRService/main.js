@@ -23,7 +23,8 @@ async function addToCart(alexaId = util.AlexaId, article) {
 async function buy(alexaId = util.AlexaId) {
 	var cart = getCart(alexaId);
 	if (await dynamo.writeRow(alexaId, {cart: []}, true)){
-		await sendMessageToClient(cart, connectionId);
+		await sendMessageToClient('_SESSION:BOUGHT', connectionId);
+		await sendMessageToClient('_AVRSAYS: Grazie mille per il tuo acquisto', connectionId);
 	}
 }
 
@@ -62,7 +63,8 @@ async function intoCart(alexaId = util.AlexaId){
 
 async function getCart(alexaId = util.AlexaId) {
 	var r = await dynamo.getRowById(alexaId, 'cart, unityUserId', true);
-	connectionId = r.unityUserId
+	// we expect this to be the first called function so we set connectionId here
+	connectionId = r.unityUserId;
 	var cart = r.cart;
 	return cart;
 }
