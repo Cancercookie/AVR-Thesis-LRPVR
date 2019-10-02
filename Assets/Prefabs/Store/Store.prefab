@@ -7148,7 +7148,6 @@ GameObject:
   - component: {fileID: 998507424447260846}
   - component: {fileID: 998507424447260845}
   - component: {fileID: 998507424447260844}
-  - component: {fileID: 998507424447260841}
   m_Layer: 0
   m_Name: Store
   m_TagString: Untagged
@@ -8639,21 +8638,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 0}
---- !u!114 &998507424447260841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998507424447260835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23ec81e09e8f7e94d82ceecf68b51411, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  qtInCart: 0
-  cartPrice: 
-  hintState: 
 --- !u!1 &998507424546028305
 GameObject:
   m_ObjectHideFlags: 0
@@ -21170,7 +21154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -21184,7 +21168,7 @@ MonoBehaviour:
     m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
