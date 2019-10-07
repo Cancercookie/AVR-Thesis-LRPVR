@@ -23,6 +23,7 @@ public class cartHandler : MonoBehaviour
     public void addToCart()
     {
         WS.addToCart(articleUI.article.articleID);
+        WS.cartPrice += articleUI.article.price;
         articlesInCart.Add(articleUI.article); // mettere in WS
         articleUI.close();
     }

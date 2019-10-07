@@ -106,7 +106,7 @@ public class websockets : MonoBehaviour
             }
             else if(res.Substring(2,9) == "cartPrice")
             {
-                cartPrice = res.Substring(14, 5);
+                // cartPrice = res.Substring(14, 5);
             }
             res = "";
         }   
