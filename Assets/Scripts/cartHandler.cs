@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class cartHandler : MonoBehaviour
 {
     public List<Article> articlesInCart;
-    private websockets WS; 
+    private StoreLogic WS; 
     private ArticleUI articleUI;
 
     private void Awake()
     {
-        WS = GameObject.Find("Store").GetComponent<websockets>();
+        WS = GameObject.Find("Store").GetComponent<StoreLogic>();
         articleUI = GameObject.Find("ArticleUI").GetComponent<ArticleUI>();
     }
 
@@ -22,8 +22,8 @@ public class cartHandler : MonoBehaviour
 
     public void addToCart()
     {
-        WS.addToCart(articleUI.article.articleID);
-        articlesInCart.Add(articleUI.article); // mettere in WS
+        WS.addToCart(articleUI.article);
+        articlesInCart.Add(articleUI.article);
         articleUI.close();
     }
 }

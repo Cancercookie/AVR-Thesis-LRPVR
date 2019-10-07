@@ -5,20 +5,20 @@ using UnityEngine.UI;
 
 public class BuyHandler : MonoBehaviour
 {
-    private websockets WS;
+    private StoreLogic sl;
         
     void Awake()
     {
-        WS = GameObject.Find("Store").GetComponent<websockets>();
+        sl = GameObject.Find("Store").GetComponent<StoreLogic>();
     }
 
     public void buyAll()
     {
-        WS.buy();
+        sl.buy();
     }
 
     public void Update()
     {
-        GameObject.Find("Store/Checkout/CheckoutCanvas/Total").GetComponent<Text>().text = WS.cartPrice + "€";
+        GameObject.Find("Store/Checkout/CheckoutCanvas/Total").GetComponent<Text>().text = sl.cartPrice + "€";
     }
 }

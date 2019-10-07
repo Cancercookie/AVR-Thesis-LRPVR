@@ -15,12 +15,12 @@ public class Crossair : BaseInputModule
     private cartHandler cart;
     private BuyHandler buyHandler;
     private Image dot;
-    private websockets WS;
+    private StoreLogic WS;
 
     protected override void Awake()
     {
         base.Awake();
-        WS = GameObject.Find("Store").GetComponent<websockets>();
+        WS = GameObject.Find("Store").GetComponent<StoreLogic>();
         articleUI = GameObject.Find("ArticleUI").GetComponent<ArticleUI>();
         cart = GameObject.Find("ArticleUI/Canvas/AddToCartBtn/AddToCart").GetComponent<cartHandler>();
         buyHandler = GameObject.Find("Store/Checkout/CheckoutCanvas/Buy").GetComponent<BuyHandler>();

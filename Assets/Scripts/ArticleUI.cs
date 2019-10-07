@@ -20,14 +20,14 @@ public class ArticleUI : MonoBehaviour
     private ScrollRect infoScroll;
     private Image crossair;
     private Text cartCount;
-    private websockets WS;
+    private StoreLogic WS;
 
     private void Awake()
     {
         crossair = UI_Camera.transform.GetComponentInChildren<Image>();
         interactUI = SteamVR_Actions._default.InteractUI;
         cart = gameObject.transform.Find("Canvas/AddToCartBtn/AddToCart").GetComponent<cartHandler>();
-        WS = GameObject.Find("Store").GetComponent<websockets>();
+        WS = GameObject.Find("Store").GetComponent<StoreLogic>();
     }
 
     void Start()
