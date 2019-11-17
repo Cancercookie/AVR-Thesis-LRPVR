@@ -22,7 +22,7 @@ async function addToCart(alexaId = util.AlexaId, article) {
 
 async function buy(alexaId = util.AlexaId) {
 	var cart = getCart(alexaId);
-	if (await dynamo.writeRow(alexaId, {cart: []}, true)){
+	if (await dynamo.writeRow(alexaId, {cart: [], cartPrice: 0}, true)){
 		await sendMessageToClient('_SESSION:BOUGHT', connectionId);
 		await sendMessageToClient('_AVRSAYS: Grazie mille per il tuo acquisto', connectionId);
 	}

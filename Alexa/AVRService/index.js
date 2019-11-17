@@ -116,15 +116,21 @@ const ErrorHandler = {
 const BuyIntentHandler = {
     canHandle(handlerInput){
         return handlerInput.requestEnvelope.request.type === 'IntentRequest'
-            && handlerInput.requestEnvelope.request.intent.name === 'Buy'
-            && handlerInput.requestEnvelope.request.intent.confirmationStatus === 'CONFIRMED';
+            && handlerInput.requestEnvelope.request.intent.name === 'Buy';
     },
     async handle(handlerInput){
-        await mainFuncs.buy(util.alexaId);
-        return handlerInput.responseBuilder
+    	if (handlerInput.requestEnvelope.request.intent.confirmationStatus === 'CONFIRMED') {
+    		await mainFuncs.buy(util.alexaId);
+        	return handlerInput.responseBuilder
             .speak('<audio src="https://s3-eu-west-1.amazonaws.com/avrbucket/Cash+Register+(Kaching).mp3"/> Grazie mille per il tuo acquisto')
             .withShouldEndSession(false)
             .getResponse();
+    	} else {
+           	return handlerInput.responseBuilder
+            .speak('Ok! Fammi sapere quando ci sei. <break time="1s"/> Se vuoi, dimmi pure cosa posso fare per te')
+            .withShouldEndSession(false)
+            .getResponse();
+    	}
     }
 };
 
