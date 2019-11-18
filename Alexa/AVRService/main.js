@@ -8,8 +8,9 @@ async function addToCart(alexaId = util.AlexaId, article) {
 	var cart = await getCart(alexaId);
 	cart = cart.concat(article);
 	if (await dynamo.writeRow(alexaId, {cart: cart}, true)) {
-		const a = await dynamo.getArticles(article);
-		const articlePrice = parseFloat(a[0].price);
+		const a = await dynamo.getArticle(article);
+		console.log(a);
+		const articlePrice = parseFloat(a.price);
 		const p = await dynamo.getRowById(alexaId, 'cartPrice', true);
 		const cartPrice = parseFloat(p.cartPrice);
 		await dynamo.writeRow(alexaId, {cartPrice: (cartPrice + articlePrice).toString()})
@@ -22,7 +23,7 @@ async function addToCart(alexaId = util.AlexaId, article) {
 
 async function buy(alexaId = util.AlexaId) {
 	var cart = getCart(alexaId);
-	if (await dynamo.writeRow(alexaId, {cart: [], cartPrice: 0}, true)){
+	if (await dynamo.writeRow(alexaId, {cart: [], cartPrice: '0'}, true)){
 		await sendMessageToClient('_SESSION:BOUGHT', connectionId);
 		await sendMessageToClient('_AVRSAYS: Grazie mille per il tuo acquisto', connectionId);
 	}

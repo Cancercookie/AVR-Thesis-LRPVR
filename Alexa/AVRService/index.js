@@ -252,7 +252,7 @@ const ChatIntentHandler = {
     },
     async handle(handlerInput){
         var speechText = '';
-        await ocketHandler.AVRSays(speechText, connectionId);
+        await socketHandler.AVRSays(speechText, connectionId);
         return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 };
