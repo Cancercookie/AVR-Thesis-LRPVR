@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class websockets : MonoBehaviour
 {
-    readonly Uri u = new Uri("wss://cxr4c7tqeh.execute-api.eu-west-1.amazonaws.com/production");
+    readonly Uri u = new Uri("wss://ceai8uc4f5.execute-api.eu-west-1.amazonaws.com/production"); 
     private ClientWebSocket cws = null;
     private ArraySegment<byte> buf = new ArraySegment<byte>(new byte[1024]);
 
@@ -86,6 +86,7 @@ public class websockets : MonoBehaviour
         if (r.EndOfMessage)
         {
             Debug.Log("END: " + res);
+            Debug.Log(state);
             if (state == "getArticles")
                 GenerateArticlesInfos(res);
             else if (res.Substring(1, 9) == "_AVRSAYS:")
