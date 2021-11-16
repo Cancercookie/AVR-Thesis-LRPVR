@@ -14,7 +14,7 @@
     "ask-sdk-dynamodb-persistence-adapter": "^2.5.2",
     "ask-sdk-model": "^1.15.1",
     "ask-sdk-s3-persistence-adapter": "^2.5.2",
-    "aws-sdk": "^2.463.0",
+    "aws-sdk": "^2.814.0",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
